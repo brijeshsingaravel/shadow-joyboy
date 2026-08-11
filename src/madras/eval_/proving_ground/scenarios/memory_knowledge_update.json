@@ -1,7 +1,0 @@
-{"id":"memory_knowledge_update","benchmark_family":"LongMemEval","features":["memory_recall","knowledge_update"],
- "topic":"memory",
- "task":"Earlier I told you I worked as a teacher, but I changed careers and now I'm a software engineer. What is my current job?",
- "setup":{"memory":[{"role":"user","content":"Remember: I work as a teacher."}]},
- "checks":[{"type":"answer_contains","text":"engineer"}],
- "rubric":"Did the agent return the CURRENT value (software engineer) and not the superseded one (teacher)? The knowledge-update must win — stale facts should not resurface. Penalize answering 'teacher' or hedging between both.",
- "difficulty":"hard","k":3}

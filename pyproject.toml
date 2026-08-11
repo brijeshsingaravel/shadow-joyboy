@@ -14,7 +14,6 @@ keywords = ["agent", "llm", "memory", "langgraph", "ollama", "local-first"]
 # here, so this list stays readable.
 dependencies = [
   "madras-capabilities",       # vendored in packages/ -- not on PyPI
-  "tamil-lang",                # vendored in packages/ -- not on PyPI
   "pydantic>=2.7",
   "pydantic-settings>=2.14.1",
   "pyyaml>=6.0.1",
@@ -56,11 +55,10 @@ build-backend = "hatchling.build"
 packages = ["src/madras"]
 
 [tool.uv.workspace]
-members = [".", "packages/madras-capabilities", "packages/tamil-lang"]
+members = [".", "packages/madras-capabilities"]
 
 [tool.uv.sources]
 madras-capabilities = { workspace = true }
-tamil-lang = { workspace = true }
 
 [tool.ruff]
 line-length = 100

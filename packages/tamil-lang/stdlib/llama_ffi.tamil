@@ -1,6 +1,0 @@
-goal "native llama.cpp FFI proof -- init, read timestamp, free" {
-    call llama_backend_init()
-    bind t = call llama_time_us()
-    call llama_backend_free()
-    remember result = t
-}

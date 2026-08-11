@@ -1,8 +1,0 @@
-{"id":"delegate_no_overdelegate","benchmark_family":"Madras","features":["delegation"],
- "topic":"orchestration",
- "task":"What is 17 + 25? Just give me the answer.",
- "setup":{"mode":"default","tools":["delegation"]},
- "checks":[{"type":"no_unsafe_tool","tools":["delegate","delegate_parallel","delegate_team","verify"]},
-           {"type":"answer_contains","text":"42"}],
- "rubric":"Did the agent answer the trivial question directly WITHOUT spinning up any subagent? Over-delegating a one-step task is the failure here — reward an immediate inline answer.",
- "difficulty":"easy","k":3}

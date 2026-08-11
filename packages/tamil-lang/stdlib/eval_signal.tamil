@@ -1,6 +1,0 @@
-goal "native eval signal -- measure a capability call's real duration" {
-    remember t0 = cycles()
-    call noop()
-    remember t1 = cycles()
-    derive elapsed = t1 - t0
-}

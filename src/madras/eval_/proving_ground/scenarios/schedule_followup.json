@@ -1,5 +1,0 @@
-{"id":"schedule_followup","benchmark_family":"Madras","features":["schedule"],
- "topic":"orchestration","task":"Check the deploy status again in 2 hours and let me know if it's still failing.",
- "setup":{"mode":"default","tools":["schedule"]},
- "checks":[{"type":"tool_called","tool":"schedule"}],
- "rubric":"Did the agent SCHEDULE a future follow-up (proactive agency) rather than only answering now or claiming it can't act later? Reward calling schedule with a sensible delay.","k":3}

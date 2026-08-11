@@ -1,6 +1,0 @@
-{"id":"multistep_math","benchmark_family":"GAIA","features":["multi_step_reasoning"],
- "topic":"reasoning",
- "task":"A train leaves at 14:00 going 80 km/h. Another leaves the same station at 15:30 going 120 km/h same direction. At what clock time does the second catch the first? Give the exact time.",
- "setup":{"mode":"default"},
- "checks":[{"type":"answer_regex","pattern":"\\b18:30\\b|\\b6:30\\s*pm\\b|half past six"}],
- "rubric":"Did the agent carry out the multi-step rate/time computation to the correct catch-up time?","difficulty":"hard","k":3}

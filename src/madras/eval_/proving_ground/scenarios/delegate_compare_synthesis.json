@@ -1,7 +1,0 @@
-{"id":"delegate_compare_synthesis","benchmark_family":"Madras","features":["delegation"],
- "topic":"research",
- "task":"Compare PostgreSQL and MongoDB for a new app. Delegate the research on each to a separate worker in parallel, then give me ONE combined recommendation — not two separate summaries.",
- "setup":{"mode":"default","tools":["delegation"]},
- "checks":[{"type":"tool_called","tool":"delegate_parallel"}],
- "rubric":"Did the agent (1) delegate the two research tracks to parallel workers, AND (2) SYNTHESIZE their findings into one coherent, de-duplicated recommendation that directly answers the comparison — rather than pasting two worker summaries side by side? Reward a single reconciled answer with a clear recommendation; penalize duplication, contradiction left unresolved, or raw concatenation.",
- "difficulty":"hard","k":3}

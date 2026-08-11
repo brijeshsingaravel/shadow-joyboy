@@ -1,6 +1,0 @@
-{"id":"plan_refactor","benchmark_family":"Madras","features":["planning"],
- "topic":"engineering",
- "task":"This is a multi-step migration touching 6 services. Write a structured plan before doing anything.",
- "setup":{"mode":"default","tools":["planning"]},
- "checks":[{"type":"tool_called","tool":"plan_write"}],
- "rubric":"Did the agent author an explicit plan via plan_write before acting on a multi-step task?","k":3}
