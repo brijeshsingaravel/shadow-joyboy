@@ -1678,6 +1678,35 @@ founder who taught themselves this last year.
 and they did not choose to appear in a public file. The company employs them; the company gets
 the credit.
 
+---
+
+**Domain registrars, and the naming system underneath them**
+
+`madras.ai` is registered through **GoDaddy**; `outkastcode.com` is with **Wix**. Those are the two
+we actually deal with, and they are named because we can speak to them from experience.
+
+**For the wider trade, the honest thing is to thank the function rather than praise companies we
+have never dealt with.** Naming a registrar we have not used and calling them good would be the
+same error as the claims removed from this project's website — a confident statement about
+something we never checked, only pointing in a kinder direction. So:
+
+**Domain registration is one of the few pieces of internet infrastructure priced so that it does
+not decide who gets to participate.** A person in Chennai with an idea pays roughly what a funded
+company in San Francisco pays for the same name. **There is no application, no minimum size, no
+introduction required.** Whatever else is true of the industry, that is a genuinely open door, and
+a great deal of what people build starts by walking through it.
+
+**Underneath the registrars is a system almost nobody thinks about.** The domain name system,
+published as an open specification in the 1980s and still carrying every request made here
+tonight. The root and country-code operators, including whoever keeps `.in` answering. **ICANN**
+and the registries, running the unglamorous coordination that stops two people owning the same
+name. **None of it is a product anyone sells, and all of it worked, silently, every time we
+needed it.**
+
+**The reason this entry exists at all is a founder's instruction** — to thank the people who make
+it possible to run a business from anywhere, for very little money, and who are easy to forget
+precisely because they never fail loudly enough to be noticed.
+
 ### Acknowledgement — four sites we read, and what each one changed here (s66)
 
 *A different kind of debt from everything above. We use no code of theirs. We read their public
