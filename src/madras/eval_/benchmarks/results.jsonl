@@ -1,0 +1,5 @@
+{"benchmark": "bfcl_subset", "slice": "v1", "model": "llama-70b", "pass1": 0.9166666666666666, "n": 12, "head_sha": "eda088f", "ts": 1781414890}
+{"benchmark": "bfcl_subset", "slice": "v1", "model": "llama-70b", "pass1": 1.0, "n": 12, "head_sha": "52ae0bb", "ts": 1781425343}
+{"benchmark": "bfcl_hard", "slice": "v1", "model": "llama-70b", "pass1": 0.8666666666666667, "n": 15, "head_sha": "52ae0bb", "ts": 1781425722, "pass_caret_k": 0.8666666666666667, "mean_pass_rate": 0.8666666666666667, "k": 4}
+{"benchmark": "bfcl_subset", "slice": "v1", "model": "llama-70b", "pass1": 1.0, "n": 12, "head_sha": "558ae51", "ts": 1781505804}
+{"benchmark": "bfcl_hard", "slice": "v1", "model": "llama-70b", "pass1": 0.8666666666666667, "n": 15, "head_sha": "e03ec85", "ts": 1781506021, "pass_caret_k": 0.8666666666666667, "mean_pass_rate": 0.8666666666666667, "k": 4}

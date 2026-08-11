@@ -1,0 +1,6 @@
+name: search
+description: Search local/governed indexes (skills, canon, sessions).
+rank_required: intern
+scopes:
+- read
+toolset: search

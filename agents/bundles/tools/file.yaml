@@ -1,0 +1,6 @@
+name: file
+description: Read files inside the sandboxed workspace.
+rank_required: intern
+scopes:
+- read
+toolset: file

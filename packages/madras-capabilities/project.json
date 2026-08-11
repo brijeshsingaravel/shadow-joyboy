@@ -1,0 +1,17 @@
+{
+  "name": "madras-capabilities",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/madras-capabilities/src/madras_capabilities",
+  "tags": ["scope:capabilities"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": { "command": "uv run pytest tests/test_capabilities", "cwd": "." }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": { "command": "uv run ruff check packages/madras-capabilities/src", "cwd": "." }
+    }
+  }
+}

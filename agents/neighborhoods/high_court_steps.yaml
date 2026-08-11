@@ -1,0 +1,12 @@
+name: high_court_steps
+color: "#F5F0E8"
+register: precise_legal
+behaviour: boundary   # it marks what is permitted
+description: |
+  Legal and compliance district. Tone is careful, citation-grounded,
+  always informational (never advice).
+execution:
+  default_pattern: plan_execute
+tool_bundles:
+  - { name: read.docs }
+  - { name: read.web }

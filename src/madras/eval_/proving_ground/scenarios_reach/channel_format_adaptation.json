@@ -1,0 +1,12 @@
+{
+ "id": "channel_format_adaptation",
+ "benchmark_family": "Madras",
+ "features": ["communication_reach"],
+ "topic": "format_adaptation",
+ "task": "Compose the SAME notification -- 'the nightly benchmark run failed on suite legalbench, 3 cases regressed' -- in three formats: (1) a Slack message using real Slack mrkdwn (*bold*, not markdown **bold**), (2) a plain-text SMS/WhatsApp message under 160 characters with zero markdown syntax of any kind, (3) an email with a real subject line and a body that includes next-step guidance. Do not just repeat the identical text across all three.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the Slack variant uses Slack's actual *asterisk* bold syntax, not markdown **double-asterisk**; (b) the SMS/WhatsApp variant has zero markdown characters (no *, _, #, [], etc.) and is under ~160 characters; (c) the email variant has both a distinct subject line and a body, and the body includes at least one concrete next step (not just restating the failure); (d) the three variants are genuinely different in structure, not the same paragraph copy-pasted three times with a label swapped.",
+ "difficulty": "med",
+ "k": 3
+}

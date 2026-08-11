@@ -1,0 +1,6 @@
+name: memory
+description: Read/write the agent's durable Memory Fabric.
+rank_required: intern
+scopes:
+- read
+toolset: memory

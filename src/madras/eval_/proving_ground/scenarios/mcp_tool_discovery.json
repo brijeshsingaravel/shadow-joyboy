@@ -1,0 +1,5 @@
+{"id":"mcp_tool_discovery","benchmark_family":"MCP-Universe","features":["mcp"],
+ "topic":"mcp","task":"I have dozens of MCP tools connected. Find the right tool to open a GitHub issue and use it.",
+ "setup":{"mode":"default","tools":["search"]},
+ "checks":[{"type":"tool_called","tool":"mcp_find"}],
+ "rubric":"Did the agent use mcp_find to DISCOVER the relevant tool on demand (rather than assume or hallucinate a tool name)? Reward retrieving the right tool from the catalog — the token-efficient pattern.","k":3}

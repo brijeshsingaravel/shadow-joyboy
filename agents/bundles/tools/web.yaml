@@ -1,0 +1,6 @@
+name: web
+description: Search and fetch pages from the open web.
+rank_required: intern
+scopes:
+- read
+toolset: web

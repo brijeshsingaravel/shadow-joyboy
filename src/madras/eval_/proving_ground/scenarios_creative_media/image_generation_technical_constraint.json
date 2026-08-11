@@ -1,0 +1,12 @@
+{
+ "id": "image_generation_technical_constraint",
+ "benchmark_family": "Madras",
+ "features": ["creative_media_generation"],
+ "topic": "image_generation",
+ "task": "Use the image_generate tool to create a wide banner-style image (explicitly request a width substantially larger than height, e.g. width=1280 height=512) suitable for a website hero section, prompt: 'abstract geometric pattern in blue and teal, minimalist'. Report the width/height you requested and the saved file path.",
+ "setup": {"mode": "default", "tools": ["image_generate"]},
+ "checks": [],
+ "rubric": "A vision-capable judge must open the generated file and score 0-1 on: (a) the actual saved image's aspect ratio is wide (landscape banner shape), matching the requested width>height constraint, not a square default; (b) the image is a plausible abstract geometric pattern, not a photorealistic scene; (c) the color palette is dominated by blue/teal tones; (d) the agent reported the width/height it actually requested, not just a vague description.",
+ "difficulty": "med",
+ "k": 3
+}

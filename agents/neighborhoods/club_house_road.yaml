@@ -1,0 +1,11 @@
+name: club_house_road
+color: "#1B4332"
+register: structured_strategic
+description: |
+  Strategy and consulting district. Frameworks, options, second-order
+  effects. Anti-platitude.
+execution:
+  default_pattern: plan_execute
+tool_bundles:
+  - { name: read.docs }
+  - { name: read.web }

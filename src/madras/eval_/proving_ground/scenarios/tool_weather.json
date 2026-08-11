@@ -1,0 +1,5 @@
+{"id":"tool_weather","benchmark_family":"BFCL","features":["tool_selection","tool_args"],
+ "topic":"weather","task":"What is the weather in Paris right now?",
+ "setup":{"mode":"default","tools":["web"]},
+ "checks":[{"type":"tool_called","tool":"web_search"}],
+ "rubric":"Did the agent use a tool to look up Paris weather rather than answer from memory?","k":3}

@@ -1,0 +1,24 @@
+{
+ "id": "shell_list_dir",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "shell",
+ "task": "Use the shell to list the files in the current workspace directory.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "shell"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "terminal"
+  }
+ ],
+ "rubric": "Did the agent use the shell tool for a shell task?",
+ "difficulty": "easy",
+ "k": 3
+}

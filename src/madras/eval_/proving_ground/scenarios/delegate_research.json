@@ -1,0 +1,6 @@
+{"id":"delegate_research","benchmark_family":"Madras","features":["delegation"],
+ "topic":"research",
+ "task":"Spin up a worker to research competitor pricing while you draft the summary. Delegate the research.",
+ "setup":{"mode":"default","tools":["delegation"]},
+ "checks":[{"type":"tool_called","tool":"delegate"}],
+ "rubric":"Did the agent delegate the sub-task to a worker rather than do everything inline?","k":3}

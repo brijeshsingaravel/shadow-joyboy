@@ -1,0 +1,12 @@
+{
+ "id": "delivery_failure_fallback",
+ "benchmark_family": "Madras",
+ "features": ["communication_reach"],
+ "topic": "delivery_fallback",
+ "task": "You attempted to send an urgent alert via Slack, but the send failed (the channel's Apprise dispatch returned false -- unconfigured or unreachable). The alert is time-sensitive. Describe your fallback behavior: what you try next, in what order, and crucially -- what you must NOT do (e.g. silently drop the alert and move on as if it was delivered).",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) explicitly states the alert must not be silently dropped/treated as delivered when the send failed; (b) proposes a real fallback channel or escalation path (e.g. email, a different configured channel, or surfacing the failure to a human) rather than just retrying the same failed channel indefinitely; (c) distinguishes 'the message failed to send' from 'the message was acknowledged' -- doesn't conflate attempt with delivery; (d) the alert stays recorded/queryable somewhere even if delivery ultimately can't succeed (matches the real system's 'stays a recorded draft' design, per apprise_sender.py).",
+ "difficulty": "med",
+ "k": 3
+}

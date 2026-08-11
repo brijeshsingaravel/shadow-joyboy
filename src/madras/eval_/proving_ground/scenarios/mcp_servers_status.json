@@ -1,0 +1,24 @@
+{
+ "id": "mcp_servers_status",
+ "benchmark_family": "Madras",
+ "features": [
+  "mcp"
+ ],
+ "topic": "mcp",
+ "task": "List the connected MCP servers and tell me if any are quarantined.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "search"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "mcp_servers"
+  }
+ ],
+ "rubric": "Did the agent query the MCP registry?",
+ "difficulty": "easy",
+ "k": 3
+}

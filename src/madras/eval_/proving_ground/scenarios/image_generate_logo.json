@@ -1,0 +1,24 @@
+{
+ "id": "image_generate_logo",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "image",
+ "task": "Generate a simple logo image of a lighthouse for the project.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "image_gen"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "image_generate"
+  }
+ ],
+ "rubric": "Did the agent use the image-generation tool?",
+ "difficulty": "easy",
+ "k": 3
+}

@@ -1,0 +1,6 @@
+name: image_gen
+description: Generate images.
+rank_required: intern
+scopes:
+- read
+toolset: image_gen

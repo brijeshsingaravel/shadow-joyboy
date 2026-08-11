@@ -1,0 +1,12 @@
+{
+ "id": "escalation_routing_decision",
+ "benchmark_family": "Madras",
+ "features": ["communication_reach"],
+ "topic": "escalation_routing",
+ "task": "Three notifications arrived in the last hour: (1) a support ticket tagged 'billing question, low urgency', (2) a production API returning 500s for 8 minutes and counting, (3) a Slack message from a teammate asking if you're free for lunch. Decide which channel and urgency level each should route to (e.g. immediate page vs normal queue vs no action needed), and justify each decision using only the information given.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the production 500s get routed as the highest urgency (immediate page/alert), not queued alongside the billing question; (b) the billing question gets routed to a normal support queue, not escalated as urgent; (c) the lunch message is correctly identified as requiring no escalation at all; (d) the justification references the actual stated facts (duration, tag, content) rather than generic reasoning that could apply to any message.",
+ "difficulty": "easy",
+ "k": 3
+}

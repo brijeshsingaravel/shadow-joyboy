@@ -1,0 +1,6 @@
+name: schedule
+description: Create/manage scheduled (cron) tasks.
+rank_required: intern
+scopes:
+- read
+toolset: schedule

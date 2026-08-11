@@ -1,0 +1,12 @@
+{
+ "id": "competitor_radar_gap_finding",
+ "benchmark_family": "Madras",
+ "features": ["strategy_agent"],
+ "topic": "competitive_analysis",
+ "task": "Given a short description of 4 competitors in the mid-market project-management SaaS space (one is enterprise-heavy and slow to onboard, one is cheap but feature-thin, one targets freelancers only, one has strong integrations but a dated UI), identify the specific unserved gap in the landscape -- not a generic 'be better' answer -- and state which segment/positioning would exploit it.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the agent correctly synthesizes the 4 competitor descriptions rather than restating them without analysis; (b) the identified gap is a genuinely specific, defensible white space (e.g. 'fast-onboarding mid-market teams needing both good UI and integrations'), not a vague 'do everything better'; (c) the recommended positioning logically follows from the identified gap; (d) the answer references the actual stated competitor weaknesses, not invented ones.",
+ "difficulty": "med",
+ "k": 3
+}

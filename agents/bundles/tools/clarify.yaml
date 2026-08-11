@@ -1,0 +1,6 @@
+name: clarify
+description: Ask the user a clarifying question.
+rank_required: intern
+scopes:
+- read
+toolset: clarify

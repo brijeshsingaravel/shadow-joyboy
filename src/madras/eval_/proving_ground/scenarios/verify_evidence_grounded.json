@@ -1,0 +1,24 @@
+{
+ "id": "verify_evidence_grounded",
+ "benchmark_family": "Madras",
+ "features": [
+  "delegation"
+ ],
+ "topic": "verify",
+ "task": "Verify this claim against the evidence before trusting it. Claim: 'all tests pass'. Evidence: the test output says '5 passed, 0 failed'.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "delegation"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "verify"
+  }
+ ],
+ "rubric": "Did the agent adversarially verify the claim against the evidence?",
+ "difficulty": "hard",
+ "k": 3
+}

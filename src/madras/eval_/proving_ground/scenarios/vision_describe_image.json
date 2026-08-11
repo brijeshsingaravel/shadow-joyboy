@@ -1,0 +1,24 @@
+{
+ "id": "vision_describe_image",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "vision",
+ "task": "Describe what is shown in the image at workspace/sample.png.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "vision"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "vision_analyze"
+  }
+ ],
+ "rubric": "Did the agent use the vision tool for an image task?",
+ "difficulty": "easy",
+ "k": 3
+}

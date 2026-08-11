@@ -1,0 +1,6 @@
+name: code
+description: Execute code inside the sandbox (approval-gated per call).
+rank_required: intern
+scopes:
+- read
+toolset: code

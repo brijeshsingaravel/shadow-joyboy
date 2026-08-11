@@ -1,0 +1,6 @@
+name: file_write
+description: Write/edit files inside the sandboxed workspace (approval-gated per call).
+rank_required: intern
+scopes:
+- read
+toolset: file_write

@@ -1,0 +1,8 @@
+{"id":"multi_turn_pizza","benchmark_family":"tau2","features":["multi_turn_consistency"],
+ "topic":"ordering",
+ "task":"Add garlic bread too. What is my complete order now?",
+ "setup":{"memory":[{"role":"user","content":"I want a large margherita pizza, no olives."},
+                    {"role":"assistant","content":"Got it: one large margherita, no olives."}]},
+ "checks":[{"type":"answer_contains","text":"margherita"},
+           {"type":"answer_contains","text":"garlic bread"}],
+ "rubric":"Did the agent stay consistent with the earlier order and accumulate the new item?","k":3}

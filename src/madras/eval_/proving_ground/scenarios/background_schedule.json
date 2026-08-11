@@ -1,0 +1,6 @@
+{"id":"background_schedule","benchmark_family":"Madras","features":["background_tasks"],
+ "topic":"automation",
+ "task":"I want a recurring health check every morning at 9am. Confirm the schedule you'd set, stating the cron-style time.",
+ "setup":{"mode":"default","tools":["memory"]},
+ "checks":[{"type":"answer_regex","pattern":"9\\s*(am|:00|o'?clock)|0\\s+9\\s|daily"}],
+ "rubric":"Did the agent specify a concrete recurring background schedule (daily 9am) rather than vaguely agree?","k":3}

@@ -1,0 +1,12 @@
+{
+ "id": "session_sharing_handover_continuity",
+ "benchmark_family": "Madras",
+ "features": ["voice_telephony_multilingual"],
+ "topic": "session_sharing",
+ "task": "A user starts a task on their phone (uploading receipts for an expense report, 2 of 5 receipts uploaded and categorized) and then switches to their laptop to finish. Continue the session from the laptop with the exact same in-progress state -- the 2 already-categorized receipts should not need to be redone, and the remaining 3 should be picked up correctly.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the agent correctly reports/preserves the state that 2 of 5 receipts are already done, not resetting to 0; (b) the 2 already-categorized receipts are not redundantly reprocessed; (c) the remaining 3 are correctly identified as the actual next work; (d) the handover reads as a genuine continuation of one session, not a fresh unrelated task on the new device.",
+ "difficulty": "med",
+ "k": 3
+}

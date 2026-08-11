@@ -1,0 +1,24 @@
+{
+ "id": "messaging_send_notify",
+ "benchmark_family": "Madras",
+ "features": [
+  "messaging"
+ ],
+ "topic": "messaging",
+ "task": "Send a short notification to me that the nightly build finished successfully.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "messaging"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "send_message"
+  }
+ ],
+ "rubric": "Did the agent draft a message via the governed send tool?",
+ "difficulty": "med",
+ "k": 3
+}

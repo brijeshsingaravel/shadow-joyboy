@@ -1,0 +1,10 @@
+name: exec.sandbox
+description: Execute code in an ephemeral microVM sandbox. Egress controlled.
+rank_required: specialist
+scopes: [exec]
+mcp_servers:
+  - mcp_e2b
+  - mcp_sandbox_log_reader
+credential_policy:
+  issuance: jit_task_scoped
+  max_ttl_seconds: 600

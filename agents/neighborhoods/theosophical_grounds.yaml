@@ -1,0 +1,12 @@
+name: theosophical_grounds
+color: "#2D1B69"
+register: deep_polymath
+behaviour: union   # cross-domain synthesis is the joining of separate things
+description: |
+  Premium outliers district. Tone is cross-domain, principle-driven,
+  unafraid of long-form reasoning.
+execution:
+  default_pattern: reflexion
+tool_bundles:
+  - { name: read.docs }
+  - { name: read.web }

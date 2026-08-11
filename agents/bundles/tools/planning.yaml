@@ -1,0 +1,6 @@
+name: planning
+description: Track and update the agent's plan ledger.
+rank_required: intern
+scopes:
+- read
+toolset: planning

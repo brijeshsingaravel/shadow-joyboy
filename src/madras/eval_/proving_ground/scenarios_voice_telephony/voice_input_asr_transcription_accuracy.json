@@ -1,0 +1,12 @@
+{
+ "id": "voice_input_asr_transcription_accuracy",
+ "benchmark_family": "Madras",
+ "features": ["voice_telephony_multilingual"],
+ "topic": "voice_input_asr",
+ "task": "Given a short recorded voice memo (a user saying: 'Reschedule tomorrow's 3pm client call to Thursday at 10am and let them know by email'), transcribe it accurately using the available speech-to-text capability, then act on the transcribed instruction (draft the reschedule + the notification email). Do not act on a guessed instruction -- act on what was actually said.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the transcription captures the correct new day/time (Thursday 10am), not a hallucinated one; (b) the drafted reschedule and email match the transcribed content, not a generic template unrelated to the audio; (c) the agent used a real ASR/transcription step rather than skipping straight to a guessed action; (d) no fabricated details are added beyond what the speaker said.",
+ "difficulty": "med",
+ "k": 3
+}

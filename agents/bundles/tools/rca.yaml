@@ -1,0 +1,6 @@
+name: rca
+description: Run root-cause-analysis on an incident.
+rank_required: intern
+scopes:
+- read
+toolset: rca

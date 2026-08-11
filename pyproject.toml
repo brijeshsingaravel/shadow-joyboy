@@ -1,0 +1,73 @@
+[project]
+name = "shadow-agent"
+version = "0.1.0"
+description = "An agent that remembers you, runs on a machine you own, and asks before it acts."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Singaravel Brijesh" }]
+keywords = ["agent", "llm", "memory", "langgraph", "ollama", "local-first"]
+
+# Measured, not guessed. Every package below was observed loading when the tools, the agent
+# factory, the graph and the CLI are imported in a fresh interpreter -- the same method used to
+# decide what code ships. Transitive dependencies are left to the resolver rather than pinned
+# here, so this list stays readable.
+dependencies = [
+  "madras-capabilities",       # vendored in packages/ -- not on PyPI
+  "tamil-lang",                # vendored in packages/ -- not on PyPI
+  "pydantic>=2.7",
+  "pydantic-settings>=2.14.1",
+  "pyyaml>=6.0.1",
+  "python-dotenv>=1.0",
+  "httpx>=0.27",
+  "rich>=13.7",
+  "psutil>=5.9",
+  "langgraph>=0.2",
+  "langchain-core>=1.4.6",
+  "langgraph-checkpoint-postgres>=2.0",
+  "asyncpg>=0.29",             # the memory store
+  "psycopg[binary]>=3.3.4",    # what the LangGraph checkpointer wants
+  "redis>=5.0",                # the fast layer in front of memory
+  "mcp>=1.0",                  # connecting other people's tools
+  "opentelemetry-sdk>=1.42.1",
+]
+
+[project.optional-dependencies]
+# The heavy things, kept out of the default install ON PURPOSE. Every one of them is imported
+# inside the function that uses it, never at module level -- so the code for these toolsets is
+# already present and costs nothing until you install the package and switch the toolset on.
+web = ["trafilatura>=1.8.0"]           # reading web pages
+code = ["tree-sitter-language-pack>=1.8.1"]  # symbol and reference search
+browser = ["playwright>=1.60.0"]       # driving a real browser
+otel = ["opentelemetry-exporter-otlp-proto-http>=1.42.1"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.6"]
+
+[project.scripts]
+shadow = "madras.cli:main"
+
+[project.urls]
+Source = "https://github.com/brijeshsingaravel/shadow-joyboy"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/madras"]
+
+[tool.uv.workspace]
+members = [".", "packages/madras-capabilities", "packages/tamil-lang"]
+
+[tool.uv.sources]
+madras-capabilities = { workspace = true }
+tamil-lang = { workspace = true }
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

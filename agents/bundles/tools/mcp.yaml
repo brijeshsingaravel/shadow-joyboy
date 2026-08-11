@@ -1,0 +1,6 @@
+name: mcp
+description: Call tools on connected MCP servers.
+rank_required: intern
+scopes:
+- read
+toolset: mcp

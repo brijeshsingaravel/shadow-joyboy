@@ -1,0 +1,6 @@
+name: delegation
+description: Delegate subtasks to isolated governed child subagents.
+rank_required: intern
+scopes:
+- read
+toolset: delegation

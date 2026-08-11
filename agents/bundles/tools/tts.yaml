@@ -1,0 +1,6 @@
+name: tts
+description: Synthesize speech audio.
+rank_required: intern
+scopes:
+- read
+toolset: tts

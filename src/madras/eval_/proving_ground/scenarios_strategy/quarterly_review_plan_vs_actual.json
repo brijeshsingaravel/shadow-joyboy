@@ -1,0 +1,12 @@
+{
+ "id": "quarterly_review_plan_vs_actual",
+ "benchmark_family": "Madras",
+ "features": ["strategy_agent"],
+ "topic": "quarterly_review",
+ "task": "Last quarter's plan targeted 15% MRR growth via a new outbound-sales motion; actual result was 6% growth, and outbound sales rep ramp took twice as long as expected while an unplanned inbound content push over-performed. Produce a quarterly review: what was planned vs what happened, the most likely root cause of the shortfall, and one concrete adjustment for next quarter -- do not just restate the numbers without a causal explanation.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the plan-vs-actual comparison is stated clearly (15% target vs 6% actual); (b) a specific, plausible root cause is named (slow rep ramp), not a vague 'execution was off'; (c) the unplanned inbound over-performance is noted and used to inform the adjustment (e.g. reallocate effort toward what's working), not ignored; (d) exactly one concrete, actionable adjustment is given for next quarter, not a generic list of options.",
+ "difficulty": "med",
+ "k": 3
+}

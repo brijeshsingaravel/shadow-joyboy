@@ -1,0 +1,6 @@
+name: security
+description: Secret scanning, vulnerability detection, and security auditing tools.
+rank_required: intern
+scopes:
+- read
+toolset: security

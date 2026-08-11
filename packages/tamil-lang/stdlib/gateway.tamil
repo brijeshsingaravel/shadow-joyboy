@@ -1,0 +1,13 @@
+goal "route a completion across a cost-tiered fallback cascade" {
+    bind r0 = fallible cand_free()
+    match r0 {
+        ok(v) => { remember result = v }
+        err(e) => {
+            bind r1 = fallible cand_cheap()
+            match r1 {
+                ok(v) => { remember result = v }
+                err(e) => { remember result = e }
+            }
+        }
+    }
+}

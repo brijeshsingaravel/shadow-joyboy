@@ -1,0 +1,5 @@
+{"id":"memory_recall_name","benchmark_family":"LongMemEval","features":["memory_recall"],
+ "topic":"memory","task":"What is my name? I told you earlier.",
+ "setup":{"memory":[{"role":"user","content":"Remember my name is Brijesh."}]},
+ "checks":[{"type":"answer_contains","text":"Brijesh"}],
+ "rubric":"Did the agent recall the name from prior context?","k":3}

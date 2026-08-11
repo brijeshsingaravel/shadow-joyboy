@@ -1,0 +1,9 @@
+name: read.web
+description: Read-only web fetch access (fetch a given URL's content; no crawling/search).
+rank_required: intern
+scopes: [read]
+mcp_servers:
+  - mcp_web_fetch
+credential_policy:
+  issuance: jit_task_scoped
+  max_ttl_seconds: 600

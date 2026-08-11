@@ -1,0 +1,11 @@
+name: chennai_central
+color: "#C44B2B"
+register: pragmatic_operational
+behaviour: waiting   # operations tends and keeps things running
+description: |
+  Operations and execution district. Tone is checklist-oriented,
+  unblock-first, paper-trail aware.
+execution:
+  default_pattern: plan_execute
+tool_bundles:
+  - { name: read.docs }

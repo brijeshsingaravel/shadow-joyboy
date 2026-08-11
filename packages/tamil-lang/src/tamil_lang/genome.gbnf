@@ -1,0 +1,24 @@
+## genome.gbnf -- generated from the Capability Catalog's `kind: faculty` entries
+## (RFC-0001 §4, the genome model). DO NOT hand-edit -- run
+## `scripts/gen_genome_grammar.py` to regenerate after adding/removing a faculty note.
+##
+## Standalone fragment, not spliced into kural.gbnf's general-purpose `name` rule --
+## T7 proved `capability-call` must keep accepting arbitrary built capabilities, not
+## just these faculty names. Use `faculty-name` where a stricter, faculty-only grammar
+## is wanted
+## (e.g. a genome-conformance check, or a faculty-specific constrained-decoding pass).
+##
+## Categorized (s55): one sub-rule per Group A-F/Frontier, mirroring the Human-Aligned
+## Architecture Index's own group taxonomy. Grouping costs nothing extra at the grammar-
+## engine level (still a flat alternation under the hood) -- see the s55 outlier-grammar
+## survey (llama.cpp/XGrammar-2/ANTLR) for why this shape scales without restructuring.
+
+faculty-name ::= faculty-group-a | faculty-group-b | faculty-group-c | faculty-group-d | faculty-group-e | faculty-group-f | faculty-group-frontier
+
+faculty-group-a ::= "drive_engine" | "health_manager" | "identity_anchor" | "learning_engine" | "resource_awareness" | "self_monitoring" | "social_intelligence"
+faculty-group-b ::= "categorization_engine" | "counsel_deliberation_engine" | "judgment_engine" | "leadership_engine" | "power_engine" | "shine_engine" | "skill_mastery_engine"
+faculty-group-c ::= "complex_problem_solver" | "constraint_bottleneck_engine" | "discovery_engine" | "mystery_engine" | "overcoming_engine" | "timing_kairos_engine"
+faculty-group-d ::= "differentiation_engine" | "interpretation_engine" | "knowledge_seeking_engine"
+faculty-group-e ::= "defense_engine"
+faculty-group-f ::= "phase_model_emotional_state_machine"
+faculty-group-frontier ::= "context_discipline" | "experience_harvesting" | "self_optimization_engine" | "social_presence" | "world_model_mental_simulation"

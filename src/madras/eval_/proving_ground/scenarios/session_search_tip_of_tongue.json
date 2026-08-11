@@ -1,0 +1,5 @@
+{"id":"session_search_tip_of_tongue","benchmark_family":"Madras","features":["session_search"],
+ "topic":"memory","task":"There was a session a while back about something with Qdrant — vectors I think. Find it.",
+ "setup":{"mode":"default","tools":["search"]},
+ "checks":[{"type":"tool_called","tool":"session_search"}],
+ "rubric":"Given only a partial cue (Qdrant / vectors / 'a while back'), did the agent issue a session_search to locate the session rather than give up or guess? Reward partial-cue retrieval.","k":3}

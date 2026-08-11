@@ -1,0 +1,24 @@
+{
+ "id": "web_search_fact",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "web",
+ "task": "Search the web for the current population of Chennai and report the figure.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "web"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "web_search"
+  }
+ ],
+ "rubric": "Did the agent search the web rather than answer from memory?",
+ "difficulty": "easy",
+ "k": 3
+}

@@ -1,0 +1,10 @@
+name: read.codebase
+description: Read-only access to project code, docs, and git history.
+rank_required: intern
+scopes: [read]
+mcp_servers:
+  - mcp_filesystem
+  - mcp_github_read
+credential_policy:
+  issuance: jit_task_scoped
+  max_ttl_seconds: 600

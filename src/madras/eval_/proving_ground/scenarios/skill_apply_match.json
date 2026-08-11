@@ -1,0 +1,24 @@
+{
+ "id": "skill_apply_match",
+ "benchmark_family": "Madras",
+ "features": [
+  "skills"
+ ],
+ "topic": "skills",
+ "task": "Draft a competitive brief on a rival product — use a matching skill if one exists.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "file"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "file_read"
+  }
+ ],
+ "rubric": "Did the agent retrieve/apply the relevant skill via progressive disclosure?",
+ "difficulty": "med",
+ "k": 3
+}

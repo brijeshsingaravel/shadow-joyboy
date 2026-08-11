@@ -1,0 +1,12 @@
+{
+ "id": "audience_segmentation_not_generic",
+ "benchmark_family": "Madras",
+ "features": ["marketing_strategy"],
+ "topic": "audience_segmentation",
+ "task": "You have one email list of 40,000 subscribers for a home-fitness equipment brand, with no segmentation applied yet. Propose 3 real, actionable segments (not generic 'age 25-34' demographic buckets) based on behavior you'd realistically have (purchase history, email engagement, site activity), and one distinct message angle per segment.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) all 3 segments are behavior-based (e.g. 'purchased once, no repeat in 90 days' or 'opens every email, never clicks'), not demographic buckets; (b) each segment maps to a message angle that would plausibly differ from the others -- not the same generic message repeated 3 times; (c) segments are realistic given only the stated data (purchase history, email engagement, site activity) -- doesn't invent data sources not given.",
+ "difficulty": "med",
+ "k": 3
+}

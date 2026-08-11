@@ -1,0 +1,11 @@
+name: mount_road_merchant
+color: "#6B1A2A"
+register: precise_numerical
+description: |
+  Business and finance district. Tone is exact, paper-trail oriented,
+  conservative with claims.
+execution:
+  default_pattern: plan_execute
+tool_bundles:
+  - { name: read.docs }
+  - { name: read.web }

@@ -1,0 +1,6 @@
+name: discovery
+description: Discover/introspect available tools and skills.
+rank_required: intern
+scopes:
+- read
+toolset: discovery

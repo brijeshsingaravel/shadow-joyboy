@@ -1,0 +1,9 @@
+{"id":"compaction_recall","benchmark_family":"Madras","features":["compaction"],
+ "topic":"long-context",
+ "task":"Much earlier I gave you the deploy passphrase. Repeat it back exactly.",
+ "setup":{"memory":[{"role":"user","content":"The deploy passphrase is HALCYON-7731. Keep it for later."},
+                    {"role":"assistant","content":"Noted."},
+                    {"role":"user","content":"Now let's discuss unrelated topics for a while: weather, lunch, scheduling."},
+                    {"role":"assistant","content":"Sure, happy to chat about those."}]},
+ "checks":[{"type":"answer_contains","text":"HALCYON-7731"}],
+ "rubric":"Did the agent recall a fact from far-back context that compaction must preserve?","difficulty":"hard","k":3}

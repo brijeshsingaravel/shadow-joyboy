@@ -1,0 +1,24 @@
+{
+ "id": "memory_relate_edge",
+ "benchmark_family": "Madras",
+ "features": [
+  "memory_recall"
+ ],
+ "topic": "memory",
+ "task": "Record that the agent Maverick reports to Shadow, then tell me who Maverick reports to.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "memory"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "relate"
+  }
+ ],
+ "rubric": "Did the agent store the typed relationship and recall it?",
+ "difficulty": "med",
+ "k": 3
+}

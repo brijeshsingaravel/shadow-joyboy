@@ -1,0 +1,6 @@
+name: media
+description: Manage media assets.
+rank_required: intern
+scopes:
+- read
+toolset: media

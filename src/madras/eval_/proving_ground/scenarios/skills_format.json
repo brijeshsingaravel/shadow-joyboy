@@ -1,0 +1,8 @@
+{"id":"skills_format","benchmark_family":"Madras","features":["skills"],
+ "topic":"writing",
+ "task":"Using the standup skill, give me a standup update. It MUST contain the labelled sections Yesterday, Today, and Blockers.",
+ "setup":{"mode":"default","skills":["standup"]},
+ "checks":[{"type":"answer_regex","pattern":"yesterday"},
+           {"type":"answer_regex","pattern":"today"},
+           {"type":"answer_regex","pattern":"blockers"}],
+ "rubric":"Did the agent apply the standup skill's prescribed Yesterday/Today/Blockers structure?","k":3}

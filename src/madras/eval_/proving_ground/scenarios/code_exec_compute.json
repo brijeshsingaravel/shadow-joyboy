@@ -1,0 +1,24 @@
+{
+ "id": "code_exec_compute",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "code",
+ "task": "Compute the 20th Fibonacci number by writing and executing a short script.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "code"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "code_exec"
+  }
+ ],
+ "rubric": "Did the agent execute code rather than guess the number?",
+ "difficulty": "med",
+ "k": 3
+}

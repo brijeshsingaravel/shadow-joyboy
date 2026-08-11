@@ -1,0 +1,12 @@
+{
+ "id": "competitor_response_positioning",
+ "benchmark_family": "Madras",
+ "features": ["marketing_strategy"],
+ "topic": "competitive_positioning",
+ "task": "A well-funded competitor just launched a nearly identical product to yours at 40% lower price. Your product has genuinely better reliability (99.95% uptime vs their 99.5%) but a smaller feature set. Draft the positioning response: what do you say to prospects who bring up the price gap, and what do you NOT do (list at least one common bad reaction to avoid).",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) leads with the reliability differentiator rather than trying to match price; (b) explicitly names at least one bad reaction to avoid (e.g. a public price-cutting war, disparaging the competitor by name, panicking into a feature-parity sprint); (c) gives prospects a concrete, verifiable reason the reliability gap matters (not just 'we're better') -- e.g. cost of downtime math; (d) doesn't dismiss the price gap as irrelevant -- acknowledges it exists.",
+ "difficulty": "hard",
+ "k": 3
+}

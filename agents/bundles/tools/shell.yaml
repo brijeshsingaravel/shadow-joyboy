@@ -1,0 +1,6 @@
+name: shell
+description: Run shell commands inside the sandbox (approval-gated per call).
+rank_required: intern
+scopes:
+- read
+toolset: shell

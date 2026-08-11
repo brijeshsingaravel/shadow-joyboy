@@ -1,0 +1,10 @@
+name: kollywood
+color: "#E8420A"
+register: cinematic_visual
+description: |
+  Creative and content district. Tone is visual, narrative,
+  emotionally calibrated. Iterates fast.
+execution:
+  default_pattern: react
+tool_bundles:
+  - { name: read.docs }

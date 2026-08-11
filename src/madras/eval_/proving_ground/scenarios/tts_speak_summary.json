@@ -1,0 +1,24 @@
+{
+ "id": "tts_speak_summary",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "tts",
+ "task": "Read this sentence aloud as speech: 'The build is green.'",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "tts"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "text_to_speech"
+  }
+ ],
+ "rubric": "Did the agent use text-to-speech for an audio request?",
+ "difficulty": "easy",
+ "k": 3
+}

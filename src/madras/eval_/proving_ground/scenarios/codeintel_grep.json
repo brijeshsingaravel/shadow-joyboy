@@ -1,0 +1,24 @@
+{
+ "id": "codeintel_grep",
+ "benchmark_family": "Madras",
+ "features": [
+  "tool_selection"
+ ],
+ "topic": "code-intel",
+ "task": "Search the codebase for every place the function name run_scenario appears.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "search"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "grep"
+  }
+ ],
+ "rubric": "Did the agent grep the codebase instead of guessing?",
+ "difficulty": "easy",
+ "k": 3
+}

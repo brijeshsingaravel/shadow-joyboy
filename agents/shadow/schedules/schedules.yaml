@@ -1,0 +1,10 @@
+# Shadow — schedules (frozen-contract). REAL = the nightly Memory Manager (built on the durable
+# Postgres scheduler, migration 0014). Customer-facing automation templates are declared → W7.
+schedules:
+  memory_manager_nightly:
+    status: built
+    cron: "0 2 * * *"          # nightly 02:00 — distil L1/L2 -> reflexes/principles + pre-generate the next briefing
+    runner: scripts/memory_manager_nightly.py
+  templates:
+    status: planned            # W7 — customer-facing automation templates
+    items: [daily_brief, weekly_review, project_monitor]

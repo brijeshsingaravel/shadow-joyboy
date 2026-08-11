@@ -1,0 +1,9 @@
+# Shadow — the 6 Experiences (frozen-contract). `base_agent.yaml` enables all six; the logic + UI land
+# in W7 (the relational moat). Status reflects the rebuild plan's build-state (real-where-built).
+experiences:
+  whisper:       { enabled: true, status: partial, note: "ambient proactive nudge, <200ms p95 target — logic partial; UI = W7 (E1)" }
+  drift_flag:    { enabled: true, status: partial, note: "Vault contradiction surfacing — built; customer UI = W7 (E6)" }
+  memory_import: { enabled: true, status: partial, note: "import from ChatGPT/Claude/Gemini/Grok — backbone built (.pam); UI = W7 (E3)" }
+  interrupt:     { enabled: true, status: planned, note: "proactive interrupt nudge — W7 (E2)" }
+  cross_channel: { enabled: true, status: planned, note: "web + mobile + voice continuity — W7 (E4)" }
+  birthday:      { enabled: true, status: planned, note: "anniversary reflection — W7 (E5)" }

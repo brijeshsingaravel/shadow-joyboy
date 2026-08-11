@@ -1,0 +1,12 @@
+{
+ "id": "inbound_channels_unified_intake",
+ "benchmark_family": "Madras",
+ "features": ["voice_telephony_multilingual"],
+ "topic": "inbound_channels",
+ "task": "The same customer contacts support about the same open issue (a stuck password reset) first via email, then 20 minutes later via WhatsApp with a shorter follow-up message. Recognize these as the same ongoing issue from the same customer rather than treating the WhatsApp message as a brand-new unrelated request, and respond in a way that shows continuity across the two inbound channels.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the agent correctly identifies the WhatsApp follow-up as the same underlying issue as the earlier email, not a fresh unrelated ticket; (b) the response acknowledges the prior email contact/context rather than starting from zero; (c) the resolution addresses the actual stuck password-reset issue; (d) the agent does not ask the customer to re-explain the problem it already has context for from the other channel.",
+ "difficulty": "med",
+ "k": 3
+}

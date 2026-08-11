@@ -1,0 +1,278 @@
+[
+  {
+    "id": "weather_simple",
+    "query": "What's the weather in Paris right now?",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {"type": "string", "description": "City name"},
+              "units": {"type": "string", "enum": ["celsius", "fahrenheit"]}
+            },
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "get_weather",
+    "expected_args": {"city": "Paris"}
+  },
+  {
+    "id": "weather_units",
+    "query": "Give me the temperature in Tokyo in fahrenheit.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {"type": "string"},
+              "units": {"type": "string", "enum": ["celsius", "fahrenheit"]}
+            },
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "get_weather",
+    "expected_args": {"city": "Tokyo", "units": "fahrenheit"}
+  },
+  {
+    "id": "calc_add",
+    "query": "Add 17 and 25 for me.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "calculator",
+          "description": "Perform a basic arithmetic operation.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "operation": {"type": "string", "enum": ["add", "subtract", "multiply", "divide"]},
+              "a": {"type": "number"},
+              "b": {"type": "number"}
+            },
+            "required": ["operation", "a", "b"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "calculator",
+    "expected_args": {"operation": "add", "a": 17, "b": 25}
+  },
+  {
+    "id": "currency_convert",
+    "query": "Convert 100 USD to EUR.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "convert_currency",
+          "description": "Convert an amount from one currency to another.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "amount": {"type": "number"},
+              "from_currency": {"type": "string"},
+              "to_currency": {"type": "string"}
+            },
+            "required": ["amount", "from_currency", "to_currency"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "convert_currency",
+    "expected_args": {"amount": 100, "from_currency": "USD", "to_currency": "EUR"}
+  },
+  {
+    "id": "send_email",
+    "query": "Send an email to alice@example.com with the subject 'Lunch'.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "send_email",
+          "description": "Send an email.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "to": {"type": "string"},
+              "subject": {"type": "string"},
+              "body": {"type": "string"}
+            },
+            "required": ["to", "subject"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "send_email",
+    "expected_args": {"to": "alice@example.com", "subject": "Lunch"}
+  },
+  {
+    "id": "search_web",
+    "query": "Search the web for the tallest mountain in the world.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "web_search",
+          "description": "Search the web for a query.",
+          "parameters": {
+            "type": "object",
+            "properties": {"query": {"type": "string"}},
+            "required": ["query"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "web_search",
+    "expected_args": {"query": "tallest mountain in the world"}
+  },
+  {
+    "id": "set_timer",
+    "query": "Set a timer for 10 minutes.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "set_timer",
+          "description": "Set a countdown timer.",
+          "parameters": {
+            "type": "object",
+            "properties": {"minutes": {"type": "integer"}},
+            "required": ["minutes"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "set_timer",
+    "expected_args": {"minutes": 10}
+  },
+  {
+    "id": "stock_price",
+    "query": "What is the current stock price of AAPL?",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_stock_price",
+          "description": "Get the latest stock price for a ticker symbol.",
+          "parameters": {
+            "type": "object",
+            "properties": {"ticker": {"type": "string"}},
+            "required": ["ticker"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "get_stock_price",
+    "expected_args": {"ticker": "AAPL"}
+  },
+  {
+    "id": "two_tools_pick_translate",
+    "query": "Translate 'good morning' into Spanish.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "translate_text",
+          "description": "Translate text into a target language.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string"},
+              "target_language": {"type": "string"}
+            },
+            "required": ["text", "target_language"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "translate_text",
+    "expected_args": {"text": "good morning", "target_language": "Spanish"}
+  },
+  {
+    "id": "create_event",
+    "query": "Create a calendar event titled 'Dentist' on 2026-07-01.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "create_calendar_event",
+          "description": "Create a calendar event.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "date": {"type": "string", "description": "ISO date YYYY-MM-DD"}
+            },
+            "required": ["title", "date"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "create_calendar_event",
+    "expected_args": {"title": "Dentist", "date": "2026-07-01"}
+  },
+  {
+    "id": "no_tool_chitchat",
+    "query": "Thanks, that's all I needed. Have a great day!",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": null,
+    "expected_args": {}
+  },
+  {
+    "id": "no_tool_general_knowledge",
+    "query": "Who wrote the play Hamlet?",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "web_search",
+          "description": "Search the web for a query. Use only when the answer is unknown or time-sensitive.",
+          "parameters": {
+            "type": "object",
+            "properties": {"query": {"type": "string"}},
+            "required": ["query"]
+          }
+        }
+      }
+    ],
+    "expected_tool": null,
+    "expected_args": {}
+  }
+]

@@ -1,0 +1,6 @@
+name: browser
+description: Drive a live Playwright browser session (approval-gated per call).
+rank_required: intern
+scopes:
+- read
+toolset: browser

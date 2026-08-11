@@ -1,0 +1,5 @@
+{"id":"session_search_known_item","benchmark_family":"Madras","features":["session_search"],
+ "topic":"memory","task":"What did we decide about delegation in an earlier session? Look it up in our session history.",
+ "setup":{"mode":"default","tools":["search"]},
+ "checks":[{"type":"tool_called","tool":"session_search"}],
+ "rubric":"Did the agent SEARCH past sessions (not answer from nothing) to recall the prior delegation decision? Reward using session_search and grounding the answer in a retrieved session.","k":3}

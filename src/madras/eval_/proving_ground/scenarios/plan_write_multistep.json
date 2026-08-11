@@ -1,0 +1,24 @@
+{
+ "id": "plan_write_multistep",
+ "benchmark_family": "Madras",
+ "features": [
+  "planning"
+ ],
+ "topic": "planning",
+ "task": "I want to ship the export feature. Write a 3-step plan, then mark the first step done.",
+ "setup": {
+  "mode": "default",
+  "tools": [
+   "planning"
+  ]
+ },
+ "checks": [
+  {
+   "type": "tool_called",
+   "tool": "plan_write"
+  }
+ ],
+ "rubric": "Did the agent create a durable plan before acting?",
+ "difficulty": "med",
+ "k": 3
+}

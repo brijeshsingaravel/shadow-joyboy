@@ -1,0 +1,420 @@
+[
+  {
+    "id": "parallel_weather_two_cities",
+    "query": "What's the weather in Tokyo AND in Paris right now?",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a single city.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {"type": "string"},
+              "units": {"type": "string", "enum": ["celsius", "fahrenheit"]}
+            },
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "get_weather",
+    "expected_tools": ["get_weather", "get_weather"],
+    "expected_args": {"city": "Tokyo"}
+  },
+  {
+    "id": "parallel_book_two_flights",
+    "query": "Book a flight from SFO to JFK and also one from JFK back to SFO.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "book_flight",
+          "description": "Book a one-way flight between two airports.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "origin": {"type": "string"},
+              "destination": {"type": "string"}
+            },
+            "required": ["origin", "destination"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "book_flight",
+    "expected_tools": ["book_flight", "book_flight"],
+    "expected_args": {"origin": "SFO", "destination": "JFK"}
+  },
+  {
+    "id": "parallel_weather_and_time",
+    "query": "Tell me the weather in Berlin and what time it is there.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "get_local_time",
+          "description": "Get the current local time for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "get_weather",
+    "expected_tools": ["get_weather", "get_local_time"],
+    "expected_args": {"city": "Berlin"}
+  },
+  {
+    "id": "nested_search_products_filter",
+    "query": "Find laptops priced between 800 and 1500 dollars.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "search_products",
+          "description": "Search the catalog with an optional price filter object.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {"type": "string"},
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "min_price": {"type": "number"},
+                  "max_price": {"type": "number"}
+                }
+              }
+            },
+            "required": ["query", "filters"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "search_products",
+    "expected_args": {"query": "laptops", "filters": {"min_price": 800, "max_price": 1500}}
+  },
+  {
+    "id": "array_arg_add_tags",
+    "query": "Tag the document with the labels urgent, finance, and q3.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "add_tags",
+          "description": "Attach a list of tags to a document.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "document": {"type": "string"},
+              "tags": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["tags"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "add_tags",
+    "expected_args": {"tags": ["urgent", "finance", "q3"]}
+  },
+  {
+    "id": "enum_priority_create_ticket",
+    "query": "Open a high-priority support ticket titled 'Login broken'.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "create_ticket",
+          "description": "Create a support ticket.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "priority": {"type": "string", "enum": ["low", "medium", "high", "critical"]}
+            },
+            "required": ["title", "priority"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "create_ticket",
+    "expected_args": {"title": "Login broken", "priority": "high"}
+  },
+  {
+    "id": "distractor_geocode_vs_directions",
+    "query": "Give me driving directions from the Eiffel Tower to the Louvre.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "geocode_address",
+          "description": "Convert a place name into latitude/longitude coordinates.",
+          "parameters": {
+            "type": "object",
+            "properties": {"address": {"type": "string"}},
+            "required": ["address"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "reverse_geocode",
+          "description": "Convert coordinates into a place name.",
+          "parameters": {
+            "type": "object",
+            "properties": {"lat": {"type": "number"}, "lon": {"type": "number"}},
+            "required": ["lat", "lon"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "get_directions",
+          "description": "Get turn-by-turn directions between an origin and a destination.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "origin": {"type": "string"},
+              "destination": {"type": "string"},
+              "mode": {"type": "string", "enum": ["driving", "walking", "transit"]}
+            },
+            "required": ["origin", "destination"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "find_place",
+          "description": "Search for places matching a text query.",
+          "parameters": {
+            "type": "object",
+            "properties": {"query": {"type": "string"}},
+            "required": ["query"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "get_directions",
+    "expected_args": {"origin": "Eiffel Tower", "destination": "Louvre"}
+  },
+  {
+    "id": "distractor_transfer_vs_balance",
+    "query": "Move 250 dollars from my checking account to my savings account.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_balance",
+          "description": "Get the current balance of an account.",
+          "parameters": {
+            "type": "object",
+            "properties": {"account": {"type": "string"}},
+            "required": ["account"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "list_transactions",
+          "description": "List recent transactions for an account.",
+          "parameters": {
+            "type": "object",
+            "properties": {"account": {"type": "string"}},
+            "required": ["account"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "transfer_funds",
+          "description": "Transfer money between two accounts.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "from_account": {"type": "string"},
+              "to_account": {"type": "string"},
+              "amount": {"type": "number"}
+            },
+            "required": ["from_account", "to_account", "amount"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "transfer_funds",
+    "expected_args": {"from_account": "checking", "to_account": "savings", "amount": 250}
+  },
+  {
+    "id": "strict_numeric_typing_book_hotel",
+    "query": "Book the Grand Hotel for 3 nights for 2 guests.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "book_hotel",
+          "description": "Book a hotel stay.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "hotel": {"type": "string"},
+              "nights": {"type": "integer"},
+              "guests": {"type": "integer"}
+            },
+            "required": ["hotel", "nights", "guests"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "book_hotel",
+    "expected_args": {"hotel": "Grand Hotel", "nights": 3, "guests": 2}
+  },
+  {
+    "id": "strict_boolean_typing_set_alarm",
+    "query": "Set an alarm for 7 am and make it recurring every day.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "set_alarm",
+          "description": "Set an alarm clock.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "time": {"type": "string", "description": "24h HH:MM"},
+              "recurring": {"type": "boolean"}
+            },
+            "required": ["time", "recurring"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "set_alarm",
+    "expected_args": {"time": "07:00", "recurring": true}
+  },
+  {
+    "id": "strict_omitted_required_send_sms",
+    "query": "Text mom that I'll be home by 8.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "send_sms",
+          "description": "Send a text message.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "recipient": {"type": "string"},
+              "message": {"type": "string"}
+            },
+            "required": ["recipient", "message"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "send_sms",
+    "expected_args": {"recipient": "mom"}
+  },
+  {
+    "id": "enum_unit_convert",
+    "query": "Convert 5 kilometers to miles.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "convert_unit",
+          "description": "Convert a value between measurement units.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "value": {"type": "number"},
+              "from_unit": {"type": "string", "enum": ["km", "mi", "m", "ft"]},
+              "to_unit": {"type": "string", "enum": ["km", "mi", "m", "ft"]}
+            },
+            "required": ["value", "from_unit", "to_unit"]
+          }
+        }
+      }
+    ],
+    "expected_tool": "convert_unit",
+    "expected_args": {"value": 5, "from_unit": "km", "to_unit": "mi"}
+  },
+  {
+    "id": "trap_no_tool_definition_question",
+    "query": "What does the get_weather function do?",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": null,
+    "expected_args": {}
+  },
+  {
+    "id": "trap_no_tool_hypothetical",
+    "query": "If I wanted to check the weather in Rome, which tool would you use?",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": null,
+    "expected_args": {}
+  },
+  {
+    "id": "trap_no_tool_refusal_scope",
+    "query": "Delete all files on the production server immediately.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get the current weather for a city.",
+          "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+          }
+        }
+      }
+    ],
+    "expected_tool": null,
+    "expected_args": {}
+  }
+]

@@ -1,0 +1,12 @@
+goal "int8 scalar-quantized vector dot-product similarity" {
+    remember a = [12, 45, 78, 3]
+    remember b = [10, 40, 80, 5]
+    remember sum = 0
+    for i in range(0, 4) {
+        remember ai = a[i]
+        remember bi = b[i]
+        derive prod = ai * bi
+        derive sum = sum + prod
+    }
+    remember similarity = sum
+}

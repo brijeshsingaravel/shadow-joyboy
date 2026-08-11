@@ -1,0 +1,79 @@
+schema_version: "0.1"
+constitution_version: "0.1"
+archetype: "_base"
+neighborhood: "_base"
+rank: intern
+origin: native
+name: "_base"
+
+memory:
+  working:      { enabled: true, store: redis_ttl, ttl_seconds: 7200 }
+  episodic:     { enabled: true, store: graphiti, retention_days: 365 }
+  reflex:
+    enabled: true
+    store: redis_permanent
+    formation: { threshold_successes: 3, min_success_rate: 0.8 }
+    decay: { half_life_days: 30, floor_score: 0.2 }
+  semantic:     { enabled: false }
+  principle:    { enabled: false }
+  relationship: { enabled: false }
+
+eval:
+  contract_version: "1.0"
+  signals:
+    per_action_required: [task_completion, trajectory_trace, tool_calls,
+                          tool_selection, argument_correctness,
+                          confidence, latency_ms, cost_usd]
+    conditional_when_triggered: [correction_absorbed, supervisor_intervention,
+                                 escalation_triggered, abstention, tool_error_recovered]
+    session_rollup_required: [user_rating, clarification_quality_score,
+                              plan_efficiency, error_recovery_rate]
+  rank_dimensions:
+    task_completion:        { threshold: 0.85 }
+    correction_absorption:  { threshold: 0.75 }
+    clarification_quality:  { threshold: 0.75 }
+    confidence_calibration: { threshold: 0.85, metric: ece_inverse }
+    user_rating:            { threshold: 0.80 }
+    tool_selection:         { threshold: 0.90 }
+    argument_correctness:   { threshold: 0.90 }
+    error_recovery:         { threshold: 0.70 }
+  promotion_rule: all_dimensions_clear_threshold
+  sustained_over_sessions: 20
+  demotion_floor: 0.55
+  threshold_calibration:
+    bootstrap_phase_sessions: 500
+    recalibration_cadence: quarterly
+    policy: hold_top_quartile_promotable
+    audit_log: true
+  judges:
+    routine_scoring: llm_as_judge
+    agent_as_judge_triggers: [promotion_gate, demotion_review,
+                              red_team_release_gate, asi_audit, marketplace_listing]
+
+persona_anchoring:
+  enabled: true
+  session_start_anchor: { inject_at: turn_0, token_budget: 800 }
+  mid_session_anchor:   { inject_every_n_turns: 12, token_budget: 200 }
+  session_end_lint:     { classifier: persona_drift_detector_v1, threshold: 0.4 }
+
+execution:
+  default_pattern: react
+  max_steps: 25
+  max_tool_calls_per_step: 5
+  max_recursion_depth: 4
+
+supervisor:
+  enabled: true
+  mode: conditional
+  triggers: [no_reflex_hit, cross_layer_conflict_detected,
+             high_stakes_action, explicit_continuity_request]
+  max_latency_budget_ms: 300
+  output_mode: outcome_gate
+
+experiences:
+  whisper:       { enabled: true }
+  interrupt:     { enabled: true }
+  memory_import: { enabled: true }
+  cross_channel: { enabled: true }
+  birthday:      { enabled: true }
+  drift_flag:    { enabled: true }

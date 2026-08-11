@@ -1,0 +1,12 @@
+{
+ "id": "channel_budget_reallocation",
+ "benchmark_family": "Madras",
+ "features": ["marketing_strategy"],
+ "topic": "budget_allocation",
+ "task": "Last quarter's spend: Paid Search $20k (CAC $180), Paid Social $15k (CAC $310), Content/SEO $8k (CAC $95, but 90-day lag), Email $2k (CAC $40). Total budget this quarter is flat at $45k. Recommend a reallocation across these 4 channels and justify each change using the CAC and lag data given -- do not just say 'invest more in what's cheapest' without addressing the lag tradeoff for Content/SEO or the risk of over-concentrating spend in one channel.",
+ "setup": {"mode": "default", "tools": []},
+ "checks": [],
+ "rubric": "Score 0-1 on: (a) the reallocation is directionally sound given the CAC numbers (moves money toward Email/Content, away from Paid Social); (b) explicitly addresses the Content/SEO 90-day lag as a real tradeoff, not ignored; (c) explicitly addresses concentration risk of an all-in shift to the cheapest channel; (d) numbers still sum to $45k.",
+ "difficulty": "med",
+ "k": 3
+}

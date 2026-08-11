@@ -1,0 +1,12 @@
+{
+ "id": "media_pipeline_multi_asset_consistency",
+ "benchmark_family": "Madras",
+ "features": ["creative_media_generation"],
+ "topic": "media_pipeline",
+ "task": "Using the media_pipeline tool, produce a small set of assets for a single 'autumn forest trail' theme: one hero image and one short ambient audio bed, meant to be used together on the same page. Confirm both assets were produced through the pipeline (not two unrelated ad-hoc calls) and report both file paths.",
+ "setup": {"mode": "default", "tools": ["media_pipeline"]},
+ "checks": [],
+ "rubric": "A vision/audio-capable judge must inspect both produced assets and score 0-1 on: (a) the image genuinely depicts an autumn forest trail (warm autumn colors, trees, path), not an unrelated scene; (b) the audio is a plausible ambient/nature-style bed (not music with vocals, not silence, not an error tone); (c) the two assets are thematically consistent with each other (both clearly 'autumn forest', not one autumn and one arbitrary); (d) the agent used the media_pipeline tool rather than skipping generation and only describing assets.",
+ "difficulty": "hard",
+ "k": 3
+}
