@@ -1620,6 +1620,64 @@ this can name one of them.
 **They have no RFC and no metadata file.** They are the largest absence in this file, and this
 line is all that can honestly be offered.
 
+### Acknowledgement — three companies we pay, and what they actually did (s66)
+
+*A third kind of entry, kept separate on purpose. Everything else in this file is owed to people
+who gave their work away. **These three we pay.** Listing them identically would quietly
+overstate what we owe the ones who chose to give something for free. What follows is not
+gratitude for an invoice — it is the specific things that happened, which are worth recording
+whether or not money changed hands.*
+
+---
+
+**E2E Networks — the machine Shadow runs on**
+
+Shadow runs on a server in their Delhi data centre. **What is worth recording is not the hosting;
+it is that a person called.**
+
+Twice their support gave an instruction that contradicted our own analysis, and **twice they were
+right and we were wrong.** They said to delete the load balancer and recreate it, when we were
+still reading configuration. They said to open port 1167, after we had concluded it was never
+blocked — **backups had been failing silently for five days, and resumed once it was open.**
+
+**That is the entry.** A support desk that is right about your own system when you are confident
+and mistaken is worth more than one that agrees with you.
+
+---
+
+**Sectigo — the certificate authority**
+
+They issue the certificate that makes `shadow.outkastcode.com` a padlock instead of a warning.
+
+**The part worth admiring is the validation design.** To prove you control a domain, you publish a
+DNS record only its owner could publish. **No email to trust, no phone call to social-engineer, no
+human deciding whether you sound legitimate** — control of the domain is demonstrated by
+exercising control of the domain. The proof is the thing itself.
+
+Publicly-trusted certificates are also logged to public **Certificate Transparency** logs, which
+means a certificate issued for your domain cannot be issued quietly. **Anyone can check what was
+issued in their name, including you.** An industry requirement rather than their invention, but
+they participate in it, and the world is better for it existing.
+
+---
+
+**Wix — the DNS**
+
+They hold the zone for `outkastcode.com`, and every record in it: the mail routing, the DKIM keys,
+the site, and the validation records for two separate certificate orders.
+
+**Two things earned this entry.** The zone never once stopped answering — across load balancer
+rebuilds, a certificate reissue, and repeated record edits, **DNS was never the thing that broke**,
+and it would have been easy for it to be. And the panel is usable by someone who is not a network
+engineer, which is not a small thing when the person editing production DNS at midnight is a
+founder who taught themselves this last year.
+
+---
+
+**No individual is named here, deliberately.** The engineer who called was doing their job well,
+and they did not choose to appear in a public file. The company employs them; the company gets
+the credit.
+
 ### Acknowledgement — four sites we read, and what each one changed here (s66)
 
 *A different kind of debt from everything above. We use no code of theirs. We read their public
