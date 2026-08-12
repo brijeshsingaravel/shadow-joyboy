@@ -1,0 +1,51 @@
+# The three services Shadow's memory needs. Nothing else runs in Docker — the agent itself
+# runs on your machine, and the model runs in Ollama.
+#
+# Ports are deliberately non-standard (5433, 6380, 6335) so this never collides with a Postgres
+# or Redis you already have running. They match .env.example exactly.
+#
+# Everything binds to 127.0.0.1, so none of it is reachable from your network. If you change
+# that, understand that Qdrant has no password by default and Redis here has none either — on
+# loopback that is fine; exposed to a network it is not.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: madras
+      POSTGRES_PASSWORD: madras   # loopback only; change it if you ever bind to a network
+      POSTGRES_DB: madras
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - shadow_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U madras -d madras"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:v1.18.3
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6335:6333"
+    volumes:
+      - shadow_qdrant:/qdrant/storage
+
+  # Redis 8 is tri-licensed AGPLv3 / RSALv2 / SSPLv1. Running the stock image as a separate
+  # process you talk to over a socket does not trigger those obligations -- no source is copied,
+  # modified or redistributed here. If that ever changes for you, Valkey (BSD, Linux Foundation)
+  # is a drop-in replacement: swap the image for valkey/valkey:8-alpine and nothing else changes.
+  # We ship Redis because Redis is what this is actually tested against.
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "127.0.0.1:6380:6379"
+
+volumes:
+  shadow_postgres:
+  shadow_qdrant:

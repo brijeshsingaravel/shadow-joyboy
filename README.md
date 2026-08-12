@@ -49,9 +49,16 @@ Requires Python 3.11+.
 
 ```bash
 git clone <your-fork-url> shadow && cd shadow
+pip install -e ./packages/madras-capabilities   # vendored, not on PyPI — must go first
 pip install -e .
 cp .env.example .env
 ```
+
+**Why two commands.** `madras-capabilities` lives in `packages/` and is not published to PyPI, so
+`pip` has nowhere to fetch it from and a single `pip install -e .` fails with
+`No matching distribution found`. Installing it first solves that. If you use
+[uv](https://github.com/astral-sh/uv), `uv sync` handles both in one step, because it understands
+the workspace.
 
 Then edit `.env`. The only thing you must set is where the model comes from.
 
