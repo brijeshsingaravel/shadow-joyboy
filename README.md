@@ -136,8 +136,9 @@ configuration, only by editing that file. That's deliberate.
 Unbounded, costs us nothing, and no data of yours ever reaches us. We won't know you did it.
 
 **If you use the [hosted Shadow](https://shadow.outkastcode.com),** you're on our machine,
-with our model and your conversations in our database. That's a much smaller group and a real responsibility, and
-it's why the two are described separately rather than as one product.
+with our model and your conversations in our database. That's a much smaller group and a
+real responsibility, and it's why the two are described separately rather than as one
+product.
 
 ## Contributing
 
