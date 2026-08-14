@@ -39,7 +39,7 @@ web = ["trafilatura>=1.8.0"]           # reading web pages
 code = ["tree-sitter-language-pack>=1.8.1"]  # symbol and reference search
 browser = ["playwright>=1.60.0"]       # driving a real browser
 otel = ["opentelemetry-exporter-otlp-proto-http>=1.42.1"]
-dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.6"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.15,<0.16"]
 
 [project.scripts]
 shadow = "madras.cli:main"
@@ -66,6 +66,14 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "RUF"]
+ignore = [
+  # (str, Enum) is the pattern this codebase uses for Pydantic-safe string enums. StrEnum has
+  # subtle behavioural differences with Pydantic, so the historical pattern is kept deliberately.
+  "UP042",
+  # Optional[X] reads more explicitly than X | None in the schema model definitions, and the
+  # codebase uses it consistently. Both are correct; consistency wins.
+  "UP045",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

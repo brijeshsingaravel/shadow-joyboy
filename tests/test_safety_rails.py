@@ -17,6 +17,7 @@ No database, no model, no network.
 from __future__ import annotations
 
 import inspect
+from typing import ClassVar
 
 from madras.audit.writer import AuditLogWriter
 from madras.security.irreversible import IRREVERSIBLE_ACTIONS
@@ -59,7 +60,9 @@ class TestTheRecordCannotBeRewritten:
     """`append` and read methods, and nothing else. An audit log you can edit is a diary, and a
     diary proves nothing to anyone who wasn't already inclined to believe you."""
 
-    FORBIDDEN = ("update", "delete", "remove", "edit", "drop", "truncate", "purge", "clear")
+    FORBIDDEN: ClassVar[tuple[str, ...]] = (
+        "update", "delete", "remove", "edit", "drop", "truncate", "purge", "clear",
+    )
 
     def test_the_writer_exposes_no_way_to_change_a_record(self) -> None:
         offenders = [

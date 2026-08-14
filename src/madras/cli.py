@@ -20,8 +20,8 @@ from madras.factory.spawn import spawn_agent
 from madras.graph.build import build_llm_graph
 from madras.llm.gateway import LLMGateway
 from madras.llm.litellm import LiteLLMBackend
-from madras.llm.reply_text import explain_empty_reply
 from madras.llm.openrouter import OpenRouterBackend
+from madras.llm.reply_text import explain_empty_reply
 from madras.mindpalace.ledger import MindPalaceLedger
 from madras.tools.registry import REGISTRY
 
@@ -75,7 +75,7 @@ async def _chat(args: argparse.Namespace) -> int:
     if not args.no_memory:
         try:
             ledger = MindPalaceLedger(postgres_url=settings.postgres_url)
-        except Exception as e:  # noqa: BLE001 — a missing database must not be a crash
+        except Exception as e:
             print(f"! memory is off: {type(e).__name__}: {e}")
             print("  Shadow will answer, but will not remember this conversation.")
             print("  Start Postgres (see README) or pass --no-memory to silence this.\n")

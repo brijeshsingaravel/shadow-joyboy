@@ -1,0 +1,71 @@
+name: tests
+
+# Runs on every push and every pull request. The point is not ceremony: this project is
+# maintained by one person, and the tests it has only mean something if something other than that
+# person's memory runs them. Tests nobody runs are worse than no tests, because they still look
+# like assurance.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Postgres and Qdrant, on the same ports docker-compose.yml publishes and the same ports the
+    # code defaults to. So CI exercises the defaults a person actually gets, rather than a special
+    # arrangement that only exists here -- if the defaults drift from the compose file again, this
+    # job notices.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: madras
+          POSTGRES_PASSWORD: madras
+          POSTGRES_DB: madras
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U madras -d madras"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+      qdrant:
+        image: qdrant/qdrant:v1.18.3
+        ports: ["6335:6333"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        # The same two commands the README gives a stranger, in the same order. If the README's
+        # install instructions break, this job breaks with them -- which is the point.
+        run: |
+          pip install -e ./packages/madras-capabilities
+          pip install -e ".[dev]"
+
+      - name: Lint
+        # Pinned in pyproject to a rule-set that does not move: a floating linter version means a
+        # green build turning red because someone else shipped a release, which for a one-person
+        # project is a morning lost to a rule that did not exist yesterday.
+        run: ruff check src tests
+
+      - name: Test
+        # No Ollama here. Pulling an embedding model on every run would cost minutes for the three
+        # semantic tests it would unlock, so those skip -- and `-rs` prints the reason, so the log
+        # says plainly what was not covered instead of quietly reporting all-green.
+        run: pytest -q -rs
+        env:
+          MADRAS_POSTGRES_URL: postgresql://madras:madras@127.0.0.1:5433/madras
+          MADRAS_QDRANT_URL: http://127.0.0.1:6335
+
+      - name: The boundary, again, on its own
+        # Deliberately repeated. These are the tests behind the README's hardest promise -- that
+        # nothing here can send a message as you -- and running them as their own step means the
+        # answer is visible in the job summary without reading a log.
+        run: pytest tests/test_boundary.py -q

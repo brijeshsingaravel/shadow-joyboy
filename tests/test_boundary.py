@@ -21,6 +21,7 @@ excuse for skipping them.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import ClassVar
 
 import pytest
 import yaml
@@ -157,7 +158,7 @@ class TestOnByDefaultMatchesTheReadme:
     it do it.
     """
 
-    ON_BY_DEFAULT = {"memory", "clarify"}
+    ON_BY_DEFAULT: ClassVar[set[str]] = {"memory", "clarify"}
 
     def test_shadow_starts_with_exactly_memory_and_clarify(self) -> None:
         declared = set(_role().get("toolsets") or [])
