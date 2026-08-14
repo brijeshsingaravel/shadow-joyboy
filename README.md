@@ -148,6 +148,12 @@ that gets turned down for a reason you had no way to know.
 
 Bugs, unclear docs and "this didn't work on my machine" are the most useful things you can send.
 
+## Security
+
+Found a way past something this README promises? **Email `brijeshsingaravel@gmail.com` rather than
+opening a public issue** — see [SECURITY.md](SECURITY.md) for what's worth reporting, what's known
+and deliberate, and what to expect back.
+
 ## Licence
 
 Apache-2.0. Use it, change it, sell it. See [LICENSE](LICENSE).
