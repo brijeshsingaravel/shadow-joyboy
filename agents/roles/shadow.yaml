@@ -55,24 +55,19 @@ tool_bundles:
 # s46: added `security` (review_tool.py's code_security_scan + gitleaks_scan) — both
 # INTERN-rank, read-scope, built after this list was last audited.
 toolsets:
-  # ONLY toolsets this repository actually ships. Guarded by tests/test_boundary.py, which fails
-  # if this list asks for anything that is not registered.
+  # ON BY DEFAULT: these two, and only these two. This matches the README, and the match is
+  # guarded by tests/test_boundary.py rather than by anyone remembering.
   #
-  # It previously also listed messaging, delegation, planning, rca, vision, schedule, media,
-  # image_gen and tts -- inherited from the full Madras roster. None of them ship here, so they
-  # resolved to nothing and were harmless. Harmless is not safe: the config was still asking for
-  # the ability to send email as the user, and the only thing refusing was a deleted file. Put
-  # messaging_tools.py back for any reason and Shadow would have gained it silently, because its
-  # configuration had already said yes.
+  # Memory is the promise -- an agent that remembers you between conversations. Clarify is the
+  # one that makes it safe to be wrong: it asks before it assumes.
   - memory
   - clarify
-  - search
-  - file
-  - file_write
-  - shell
-  - code
-  - web
-  - browser
-  - mcp
-  - discovery
-  - security
+
+  # SHIPPED, SWITCHED OFF: search, file, file_write, shell, code, web, browser, mcp, discovery,
+  # security. Every one of them is present in this repo and one line from working -- add it to
+  # the list above.
+  #
+  # They are off because of what a first run means. `shell` runs commands on your machine and
+  # `file_write` edits your files, and nobody should discover that an agent can do those things
+  # by watching it do them. Turning one on is a decision you make with your eyes open; that is
+  # the whole difference between a tool and a surprise.

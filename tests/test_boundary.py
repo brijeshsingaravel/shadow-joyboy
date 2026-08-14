@@ -147,6 +147,43 @@ class TestShadowAsksForNothingItCannotHave:
         assert got, "Shadow resolved to no tools at all — that is a broken config, not a safe one"
 
 
+class TestOnByDefaultMatchesTheReadme:
+    """The README tells a stranger what Shadow can do the moment they run it. That sentence and
+    this config have to agree, and the agreement should not depend on anyone remembering.
+
+    They disagreed when this was written. The README said memory and clarification were on and
+    everything else shipped switched off; the config turned all twelve on, so a first run could
+    execute shell commands and write files. Nobody should learn an agent can do that by watching
+    it do it.
+    """
+
+    ON_BY_DEFAULT = {"memory", "clarify"}
+
+    def test_shadow_starts_with_exactly_memory_and_clarify(self) -> None:
+        declared = set(_role().get("toolsets") or [])
+        assert declared == self.ON_BY_DEFAULT, (
+            f"Shadow starts with {sorted(declared)}. The README says "
+            f"{sorted(self.ON_BY_DEFAULT)}. Change both together or neither."
+        )
+
+    def test_the_dangerous_ones_are_off(self) -> None:
+        """Named individually, so switching one on is a deliberate edit to a test that says why."""
+        declared = set(_role().get("toolsets") or [])
+        for risky in ("shell", "file_write", "code", "browser"):
+            assert risky not in declared, (
+                f"`{risky}` is on by default. It ships, and it is one line from working — but a "
+                "first run should not be able to touch someone's machine before they've decided."
+            )
+
+    def test_the_default_agent_is_still_useful(self) -> None:
+        """Safe and useless is not a win. Memory alone must still give it real tools."""
+        got = REGISTRY.allowed(agent_rank=Rank.INTERN, toolsets=list(self.ON_BY_DEFAULT))
+        assert len(got) >= 10, (
+            f"only {len(got)} tools with the default config — memory is the whole promise of "
+            "this repo, so if it resolves to almost nothing the default is wrong, not safe"
+        )
+
+
 @pytest.mark.parametrize("role_file", sorted((REPO / "agents" / "roles").glob("*.yaml")))
 def test_every_role_in_the_repo_respects_the_boundary(role_file: Path) -> None:
     """Not just Shadow. Any role config shipped here is a door, and they all need the same lock."""

@@ -38,7 +38,27 @@ it is not here yet. Extracting it cleanly means untangling it first, and shippin
 everything else would be worse than shipping it later.
 
 **It cannot browse, run shell commands, write files, or execute code — until you turn those on.**
-Those toolsets ship, switched off. Memory and clarification are the only two on by default.
+Those toolsets ship, switched off.
+
+**Out of the box you get 14 tools:** the 13 memory ones — `remember`, `recall`, `note`, `relate`,
+`memory_export` and the rest — plus `clarify`, which asks instead of assuming.
+
+**Turning more on is one line.** Add the toolset to `agents/roles/shadow.yaml`:
+
+```yaml
+toolsets:
+  - memory
+  - clarify
+  - search       # ← added
+```
+
+Available: `search`, `file`, `file_write`, `shell`, `code`, `web`, `browser`, `mcp`, `discovery`,
+`security`.
+
+**They're off because of what a first run means.** `shell` runs commands on your machine and
+`file_write` edits your files. Nobody should find out an agent can do those things by watching it
+do them. Switching one on should be a decision you make with your eyes open — that's the whole
+difference between a tool and a surprise.
 
 Also absent: planning, kanban, scheduling, vision, speech, image generation, media, database
 querying, git/CI, root-cause analysis, and computer use.
