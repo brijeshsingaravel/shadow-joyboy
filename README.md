@@ -6,8 +6,15 @@ does anything it can't undo.
 Shadow is the flagship agent from Madras AI. This repository is Shadow itself
 — extracted so you can read it, run it, and decide for yourself whether it does what it says.
 
-**Status: early.** One person built this. It runs, it's tested, and it is not battle-hardened by a
-thousand users yet. You are early, and things will be rough in places.
+**Status: early.** One person built this. It is not battle-hardened by a thousand users yet, and
+things will be rough in places.
+
+**What "tested" means here, since the word is cheap:** 93 tests, run on every push. Most of them
+check that this README is telling you the truth — that no tool able to send a message is
+registered, that the agent's config asks for nothing it cannot have, that the tool count below
+matches what you actually get, and that every toolset named here exists. If a promise on this page
+stops being true, the build goes red. The tests needing a database skip with a reason rather than
+passing quietly, so a green run on a laptop with no Docker says plainly what it did not cover.
 
 ---
 
@@ -97,7 +104,9 @@ sister's wedding" finds the day you called it "the function in December". **With
 still runs and still remembers, but falls back to matching words**, and nothing will tell you
 that has happened.
 
-This is the configuration the hosted Shadow runs on, on a machine we own.
+The hosted Shadow runs this same shape on a machine we own, though with
+`nomic-embed-text-v2-moe` as the embedding model rather than the one above. Either works; that
+one simply happened to be pulled first.
 
 Memory needs somewhere to live. Postgres for the record and Qdrant for the semantic search:
 
@@ -118,13 +127,18 @@ src/madras/
   tools/        the 54 tools, and the registry that gates them by rank
   memory/       the layered store — episodic, semantic, reflexes
   mindpalace/   memory per project, kept separate
-  memory_manager/  the nightly job that consolidates and forgets
+  memory_manager/  consolidation and forgetting — the logic, not a schedule (see below)
   graph/        the LangGraph topology, checkpointed so a crash resumes
   security/     the permission engine and the irreversible-action list
   audit/        append-only, hash-chained
   eval_/        the signals every action emits
   persona/      identity, and the drift check on it
 ```
+
+**`memory_manager/` is not wired to a clock in this repo.** The consolidation and forgetting
+logic is here and works when called, but nothing runs it nightly — the scheduler is part of the
+parent project and was not extracted. If you want it on a timer, that is yours to add. Said plainly
+because "the nightly job" would have you expecting your memory to be tidied while you sleep.
 
 `src/madras/tools/builtin/__init__.py` is worth reading first. That import list **is** the
 boundary of what this agent can do — a toolset that isn't imported there cannot be switched on by
