@@ -160,9 +160,18 @@ class Settings(BaseSettings):
         default="http://localhost:3004", validation_alias="MADRAS_LANGFUSE_HOST"
     )
 
-    # Infra (shared outkast-* stack)
+    # 127.0.0.1, NEVER localhost, and the ports match docker-compose.yml exactly.
+    #
+    # Two separate traps were here. Windows resolves `localhost` to ::1 first, and a service
+    # bound to IPv4 refuses that connection while looking perfectly healthy -- it cost a full
+    # session of debugging on the machine this came from. And the Postgres default said 5432
+    # while the compose file publishes 5433, so anyone who started the databases and skipped
+    # the .env step got a connection failure pointing at the wrong thing entirely.
+    #
+    # These defaults now describe exactly what `docker compose up -d` gives you.
+    # Infra
     postgres_url: str = Field(
-        default="postgresql://madras:madras@localhost:5432/madras",
+        default="postgresql://madras:madras@127.0.0.1:5433/madras",
         alias="madras_postgres_url",
         description="Shared outkast-postgres, madras db/user (vault key: MADRAS_POSTGRES_URL)",
     )
@@ -176,13 +185,13 @@ class Settings(BaseSettings):
         "`postgres_url` when unset, which keeps a database that was never split working.",
     )
     redis_working_url: str = Field(
-        default="redis://localhost:6380/9",
+        default="redis://127.0.0.1:6380/9",
         validation_alias="MADRAS_REDIS_URL",
         description="Madras's own dedicated madras-redis (host port 6380, s35/s44 isolation), "
         "db 9 = working memory. Vault's plain REDIS_URL is the shared outkast-redis instance.",
     )
     redis_reflex_url: str = Field(
-        default="redis://localhost:6380/10",
+        default="redis://127.0.0.1:6380/10",
         description="Madras's own dedicated madras-redis (host port 6380), db 10 = reflex memory",
     )
     qdrant_url: str = Field(
@@ -215,7 +224,7 @@ class Settings(BaseSettings):
         "documents is one the code actually looks for.",
     )
     ollama_url: str = Field(
-        default="http://localhost:11434",
+        default="http://127.0.0.1:11434",
         validation_alias="MADRAS_OLLAMA_URL",
         description="Namespaced deliberately (s66). The shared vault defines a bare OLLAMA_URL for "
         "another project, so without this alias any shell that sources the vault silently "
