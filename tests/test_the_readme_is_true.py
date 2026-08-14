@@ -51,6 +51,28 @@ class TestEveryFileTheReadmeMentionsExists:
         assert (REPO / "src/madras/tools/builtin/__init__.py").exists()
 
 
+class TestNothingIsStillAPlaceholder:
+    """The first command in the README is a `git clone`. A placeholder there is not a cosmetic
+    problem: it is the very first thing a stranger runs, and it fails before they have read a
+    word of the rest. This repo shipped `<your-fork-url>` right up until someone read the file
+    line by line and noticed."""
+
+    def test_no_angle_bracket_placeholders_in_command_blocks(self) -> None:
+        import re as _re
+
+        fence = chr(96) * 3
+        blocks = _re.findall(fence + r"(?:bash|sh|yaml)?(.*?)" + fence, README, _re.S)
+        offenders = [
+            ln.strip()
+            for b in blocks
+            for ln in b.splitlines()
+            if _re.search(r"<[a-z][a-z0-9 _-]*>", ln)
+        ]
+        assert not offenders, (
+            f"placeholders left in commands a person is meant to run: {offenders}"
+        )
+
+
 class TestTheNumbersAreRight:
     def test_the_default_tool_count_matches_the_claim(self) -> None:
         """The README says a number. If the number moves, one of the two must change."""

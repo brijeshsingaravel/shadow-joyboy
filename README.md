@@ -75,7 +75,7 @@ querying, git/CI, root-cause analysis, and computer use.
 Requires Python 3.11+.
 
 ```bash
-git clone <your-fork-url> shadow && cd shadow
+git clone https://github.com/brijeshsingaravel-jpg/shadow-joyboy.git shadow && cd shadow
 pip install -e ./packages/madras-capabilities   # vendored, not on PyPI — must go first
 pip install -e .
 cp .env.example .env
