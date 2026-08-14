@@ -65,6 +65,50 @@ def cmd_tools(_: argparse.Namespace) -> int:
     return 0
 
 
+async def _migrate(_: argparse.Namespace) -> int:
+    """Create the database tables. Run this once, after the databases are up.
+
+    WHY THIS EXISTS. Nothing in this codebase creates its own tables: `MemoryFabric` has no
+    `CREATE TABLE` and no `setup()`. Without this step a fresh Postgres has no schema, and the
+    first thing you tell Shadow fails with `relation "madras_memory" does not exist`.
+
+    That was the state this repository shipped in until CI caught it on the first push. Every
+    test before that ran against a database which had been carrying these tables for months, so
+    the one experience that was never exercised was the only one a stranger has.
+    """
+    import asyncpg
+
+    migrations = sorted((Path(__file__).resolve().parents[2] / "infra/migrations").glob("*.sql"))
+    if not migrations:
+        print("No migrations found — expected them in infra/migrations/")
+        return 1
+
+    # admin_url falls back to postgres_url, which is what a `docker compose up -d` install has:
+    # one role that owns everything. The parent project separates them so the app role cannot
+    # run DDL, and that separation is worth keeping if you ever deploy this for other people.
+    print(f"Applying {len(migrations)} migrations to {settings.admin_url.split('@')[-1]}")
+    conn = await asyncpg.connect(settings.admin_url)
+    try:
+        for f in migrations:
+            try:
+                await conn.execute(f.read_text(encoding="utf-8"))
+            except Exception as e:
+                print(f"  FAILED on {f.name}: {type(e).__name__}: {e}")
+                return 1
+        # Verify the artifact, not the exit code: the tables must actually be there afterwards.
+        missing = [
+            t for t in ("madras_memory", "madras_turn_log", "madras_audit_log")
+            if not await conn.fetchval("select to_regclass($1) is not null", f"public.{t}")
+        ]
+        if missing:
+            print(f"  migrations ran but these tables are absent: {missing}")
+            return 1
+    finally:
+        await conn.close()
+    print("Done. The tables exist and Shadow can remember.")
+    return 0
+
+
 async def _chat(args: argparse.Namespace) -> int:
     from langchain_core.messages import AIMessage, HumanMessage
 
@@ -148,6 +192,9 @@ def main(argv: list[str] | None = None) -> int:
 
     t = sub.add_parser("tools", help="list every tool this build has")
     t.set_defaults(fn=cmd_tools)
+
+    m = sub.add_parser("migrate", help="create the database tables (run once, after the DBs are up)")
+    m.set_defaults(fn=lambda a: asyncio.run(_migrate(a)))
 
     args = p.parse_args(argv)
     return args.fn(args)

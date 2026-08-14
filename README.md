@@ -114,6 +114,14 @@ Memory needs somewhere to live. Postgres for the record and Qdrant for the seman
 docker compose up -d
 ```
 
+Then create the tables. **Once, and it is not optional** — nothing here creates its own schema,
+so without this the first thing you tell Shadow fails with
+`relation "madras_memory" does not exist`:
+
+```bash
+python -m madras.cli migrate
+```
+
 ## Run it
 
 ```bash

@@ -55,6 +55,16 @@ jobs:
         # project is a morning lost to a rule that did not exist yesterday.
         run: ruff check src tests
 
+      - name: Create the database schema
+        # The step whose absence made the first CI run fail. Nothing in this codebase creates its
+        # own tables, so a fresh Postgres has no schema and the first remember() dies with
+        # `relation "madras_memory" does not exist`. Every local test had passed because the
+        # developer's database already had these tables; CI was the first machine with an empty
+        # one, which is the only machine that matches a stranger's.
+        run: python -m madras.cli migrate
+        env:
+          MADRAS_POSTGRES_URL: postgresql://madras:madras@127.0.0.1:5433/madras
+
       - name: Test
         # No Ollama here. Pulling an embedding model on every run would cost minutes for the three
         # semantic tests it would unlock, so those skip -- and `-rs` prints the reason, so the log
