@@ -193,7 +193,9 @@ def main(argv: list[str] | None = None) -> int:
     t = sub.add_parser("tools", help="list every tool this build has")
     t.set_defaults(fn=cmd_tools)
 
-    m = sub.add_parser("migrate", help="create the database tables (run once, after the DBs are up)")
+    m = sub.add_parser(
+        "migrate", help="create the database tables (run once, after the DBs are up)"
+    )
     m.set_defaults(fn=lambda a: asyncio.run(_migrate(a)))
 
     args = p.parse_args(argv)
