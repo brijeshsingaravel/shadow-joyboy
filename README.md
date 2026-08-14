@@ -3,7 +3,7 @@
 An agent that remembers you between conversations, runs on a machine you own, and asks before it
 does anything it can't undo.
 
-Shadow is the flagship agent from [Madras AI](https://madras.ai). This repository is Shadow itself
+Shadow is the flagship agent from Madras AI. This repository is Shadow itself
 — extracted so you can read it, run it, and decide for yourself whether it does what it says.
 
 **Status: early.** One person built this. It runs, it's tested, and it is not battle-hardened by a
@@ -14,12 +14,12 @@ thousand users yet. You are early, and things will be rough in places.
 ## What it actually does
 
 **It remembers.** Tell it something today and ask about it next week. Memory is on by default and
-is the whole point — 14 memory tools, a layered store, and retrieval that works on meaning rather
-than keywords, so "what did I say about my sister's wedding" finds the conversation where you
+is the whole point — a layered store, and retrieval that works on meaning rather than
+keywords, so "what did I say about my sister's wedding" finds the conversation where you
 called it "the function in December".
 
-**It runs where you put it.** Point it at your own model — a local one through Ollama, or any
-provider you have a key for. Nothing is sent anywhere you didn't configure.
+**It runs where you put it.** Two backends: a local model through Ollama, or OpenRouter with
+your own key. Ollama is the default, and on that setting nothing you type leaves your machine.
 
 **It asks first.** Actions that can't be undone go through a permission check before they run, not
 after. That check is part of how the agent is built, not a setting you can forget to switch on.
@@ -135,8 +135,8 @@ configuration, only by editing that file. That's deliberate.
 **If you clone this,** you run Shadow on your own machine with your own key and your own database.
 Unbounded, costs us nothing, and no data of yours ever reaches us. We won't know you did it.
 
-**If you use the hosted Shadow at shadow.outkastcode.com,** you're on our machine, with our model
-and your conversations in our database. That's a much smaller group and a real responsibility, and
+**If you use the [hosted Shadow](https://shadow.outkastcode.com),** you're on our machine,
+with our model and your conversations in our database. That's a much smaller group and a real responsibility, and
 it's why the two are described separately rather than as one product.
 
 ## Contributing
