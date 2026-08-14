@@ -85,11 +85,19 @@ Then edit `.env`. The only thing you must set is where the model comes from.
 **Running fully local, nothing leaves your machine** — install [Ollama](https://ollama.com), then:
 
 ```bash
-ollama pull qwen3.5:4b
+ollama pull qwen3.5:4b          # the model it thinks with
+ollama pull nomic-embed-text    # the model it remembers with
 ```
 
-and set `MADRAS_LLM_BACKEND=ollama` in `.env`. That is the configuration the hosted Shadow runs
-on, on a machine we own.
+and set `MADRAS_LLM_BACKEND=ollama` in `.env`.
+
+**Both models matter, for different reasons.** The first answers you. The second turns what you
+say into the numbers that make recall work by meaning rather than by keyword — it is how "my
+sister's wedding" finds the day you called it "the function in December". **Without it Shadow
+still runs and still remembers, but falls back to matching words**, and nothing will tell you
+that has happened.
+
+This is the configuration the hosted Shadow runs on, on a machine we own.
 
 Memory needs somewhere to live. Postgres for the record and Qdrant for the semantic search:
 

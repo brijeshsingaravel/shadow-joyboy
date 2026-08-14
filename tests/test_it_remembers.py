@@ -34,6 +34,25 @@ def _http_up(url: str, path: str) -> bool:
         return False
 
 
+def _embed_model_present() -> bool:
+    """Ollama answering is not the same as the embedding model being pulled.
+
+    Checking only that the server is up made this suite FAIL rather than skip on a machine with
+    Ollama running and `nomic-embed-text` never pulled -- which is most machines, since the README
+    used to tell you to pull the chat model and nothing else. embed() returns None on a missing
+    model, semantic recall silently degrades to keyword matching, and the test that proves recall
+    works by meaning cannot pass. Skip means "we did not check this"; fail means "this is broken".
+    A missing model is the first, not the second.
+    """
+    try:
+        r = httpx.get(f"{settings.ollama_url}/api/tags", timeout=3.0)
+        names = [m.get("name", "") for m in r.json().get("models", [])]
+        want = settings.embed_model.split(":")[0]
+        return any(n.split(":")[0] == want for n in names)
+    except Exception:
+        return False
+
+
 def _postgres_up() -> bool:
     try:
         hostport = settings.postgres_url.split("@")[-1].split("/")[0]
@@ -51,9 +70,9 @@ needs_semantic = pytest.mark.skipif(
     not (
         _postgres_up()
         and _http_up(settings.qdrant_url, "/collections")
-        and _http_up(settings.ollama_url, "/api/tags")
+        and _embed_model_present()
     ),
-    reason="needs Postgres + Qdrant + Ollama for recall by meaning",
+    reason=f"needs Postgres + Qdrant + Ollama with `ollama pull {settings.embed_model}`",
 )
 
 
