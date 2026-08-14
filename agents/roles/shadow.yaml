@@ -54,20 +54,17 @@ tool_bundles:
 # See Plans/shadow-rebuild.md's W2 section for the live-verified evidence.
 # s46: added `security` (review_tool.py's code_security_scan + gitleaks_scan) — both
 # INTERN-rank, read-scope, built after this list was last audited.
+# Rewritten by scripts/shadow_oss_extract.py. The engine's own Shadow declares all 21
+# toolsets because Madras ships all of them; this repo ships twelve, starting with two.
+# Everything else is present and one line from working -- add it below.
 toolsets:
-  # ON BY DEFAULT: these two, and only these two. This matches the README, and the match is
-  # guarded by tests/test_boundary.py rather than by anyone remembering.
-  #
-  # Memory is the promise -- an agent that remembers you between conversations. Clarify is the
-  # one that makes it safe to be wrong: it asks before it assumes.
   - memory
   - clarify
 
-  # SHIPPED, SWITCHED OFF: search, file, file_write, shell, code, web, browser, mcp, discovery,
-  # security. Every one of them is present in this repo and one line from working -- add it to
-  # the list above.
-  #
-  # They are off because of what a first run means. `shell` runs commands on your machine and
-  # `file_write` edits your files, and nobody should discover that an agent can do those things
-  # by watching it do them. Turning one on is a decision you make with your eyes open; that is
-  # the whole difference between a tool and a surprise.
+skills: []
+
+execution:
+  default_pattern: react
+  max_steps: 25
+  max_tool_calls_per_step: 5
+  max_recursion_depth: 4

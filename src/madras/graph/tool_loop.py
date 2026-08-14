@@ -134,6 +134,12 @@ class LoopDone:
     latency_ms: float
     trajectory: list[str]
     tests_passed: bool | None = None
+    # Why the model stopped. Carried out because an empty `text` is meaningless without it: the
+    # reply boundary needs to tell "ran out of room mid-thought" (finish_reason "length") apart
+    # from "came back blank for reasons unknown", and this is the last place that is known.
+    # Found by benchmarking at s66 -- one MemoryAgentBench answer in eight arrived empty, and
+    # every layer between here and the person reported success.
+    finish_reason: str | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -396,8 +402,15 @@ async def run_agentic_loop(
                     + [f"tool:{n}" for n in tools_used]
                     + (["guardrail_output_block"] if output_blocked else [])
                 )
+                fin: str | None = None
+                try:
+                    fin = resp.raw["choices"][0].get("finish_reason")
+                except Exception:  # a missing field must never break a reply
+                    fin = None
+
                 return LoopDone(
                     text=response_text,
+                    finish_reason=fin,
                     tools_used=tools_used,
                     cost_usd=total_cost,
                     latency_ms=round(max(wall_ms, total_latency), 3),

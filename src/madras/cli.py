@@ -20,6 +20,7 @@ from madras.factory.spawn import spawn_agent
 from madras.graph.build import build_llm_graph
 from madras.llm.gateway import LLMGateway
 from madras.llm.litellm import LiteLLMBackend
+from madras.llm.reply_text import explain_empty_reply
 from madras.llm.openrouter import OpenRouterBackend
 from madras.mindpalace.ledger import MindPalaceLedger
 from madras.tools.registry import REGISTRY
@@ -95,9 +96,17 @@ async def _chat(args: argparse.Namespace) -> int:
             "messages": list(history),
         })
         reply = result["messages"][-1]
+        # A reply can arrive empty. The model is a reasoning model: given a hard question it can
+        # spend its whole token budget thinking and be cut off before writing an answer, and the
+        # transport calls that a success -- HTTP 200, valid JSON, finish_reason "length", content
+        # "". Found by benchmarking, where one answer in eight came back blank. Printed raw, a
+        # person sees nothing and cannot tell that from a crash, so say what happened instead.
+        said = explain_empty_reply(
+            str(reply.content), finish_reason=result.get("finish_reason")
+        )
         history.append(HumanMessage(content=text))
-        history.append(AIMessage(content=str(reply.content)))
-        print(f"\n{agent.config.display_name}: {reply.content}\n")
+        history.append(AIMessage(content=said))
+        print(f"\n{agent.config.display_name}: {said}\n")
 
     try:
         if args.prompt:

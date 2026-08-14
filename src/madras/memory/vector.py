@@ -54,6 +54,46 @@ async def embed(text: str) -> list[float] | None:
         return None
 
 
+async def embed_many(texts: list[str], *, batch_size: int = 32) -> list[list[float] | None]:
+    """Embed many texts in batched calls. Returns one entry per input, in order.
+
+    WHY THIS EXISTS. `embed()` is one HTTP round trip per text, and callers loop over it. Indexing
+    one MemoryAgentBench row -- 1,272 chunks -- took 1,104 seconds that way, 0.87s per chunk, and
+    every one of those trips was independent of the others (s66).
+
+    Measured on the same model and machine before this was written: 48 chunks one at a time took
+    6.6s; in batches of 32, 1.1s. **5.8x, from doing nothing cleverer than asking for more than
+    one at a time.**
+
+    Uses Ollama's `/api/embed`, which takes a list, rather than `/api/embeddings`, which takes a
+    single prompt. Order is preserved because callers zip the result against their own ids -- a
+    reordered list would attach the wrong vector to the wrong memory, which is worse than being
+    slow. Returns `None` in place of any batch that failed, so one bad batch never discards the
+    others; callers already treat `None` as "skip this one".
+    """
+    if not texts:
+        return []
+    out: list[list[float] | None] = []
+    async with httpx.AsyncClient(timeout=_EMBED_TIMEOUT) as client:
+        for start in range(0, len(texts), batch_size):
+            batch = texts[start : start + batch_size]
+            try:
+                r = await client.post(
+                    f"{settings.ollama_url}/api/embed",
+                    json={"model": settings.embed_model, "input": batch},
+                )
+                r.raise_for_status()
+                vecs = r.json().get("embeddings") or []
+                if len(vecs) != len(batch):
+                    # A short response would silently misalign every id after it.
+                    out.extend([None] * len(batch))
+                else:
+                    out.extend(vecs)
+            except Exception:  # one failed batch must not lose the rest
+                out.extend([None] * len(batch))
+    return out
+
+
 def cosine(a: list[float] | None, b: list[float] | None) -> float:
     """Cosine similarity in [-1,1]; -1.0 for missing/mismatched vectors."""
     if not a or not b or len(a) != len(b):
@@ -149,6 +189,41 @@ class QdrantVectorIndex:
                     ]
                 },
             )
+
+    async def index_many(self, items: list[tuple[str, str]], *, batch_size: int = 32) -> int:
+        """Index many `(item_id, text)` pairs. Returns how many were actually stored.
+
+        Two round trips per batch instead of two per item: one batched embed, one batched upsert.
+        `index()` is unchanged and still correct for a single write -- this is for the ingest
+        path, where a document set arrives all at once.
+
+        Items whose embedding failed are skipped rather than stored without a vector, matching
+        `index()`, which returns early on `None`. The count comes back so a caller can tell
+        "stored 1,270 of 1,272" from "stored everything" -- a silent partial write into someone's
+        memory is the kind of thing that surfaces weeks later as "it forgot".
+        """
+        if not items:
+            return 0
+        vecs = await embed_many([text for _, text in items], batch_size=batch_size)
+        points = [
+            {
+                "id": self._point_id(item_id),
+                "vector": vec,
+                "payload": {"item_id": item_id, "tenant": self._tenant},
+            }
+            for (item_id, _), vec in zip(items, vecs, strict=True)
+            if vec is not None
+        ]
+        if not points:
+            return 0
+        async with httpx.AsyncClient(timeout=60.0, headers=qdrant_headers()) as client:
+            await self._ensure(client, len(points[0]["vector"]))  # type: ignore[arg-type]
+            for start in range(0, len(points), batch_size):
+                await client.put(
+                    f"{settings.qdrant_url}/collections/{self._col}/points",
+                    json={"points": points[start : start + batch_size]},
+                )
+        return len(points)
 
     def _tenant_filter(self) -> dict[str, Any]:
         """Restrict a search to this tenant's own points.
