@@ -25,7 +25,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Vault path is overridable via MADRAS_VAULT_PATH so CI / non-Windows hosts can point
 # at a different location (or omit it entirely for safe-default mode).
-_VAULT_PATH = Path(os.environ.get("MADRAS_VAULT_PATH", "O:/Brijesh-OS/secrets/vault.env"))
+# The engine reads a shared secrets vault at an absolute path on the founder's machine.
+# An extracted repo must not: that path is a personal detail nobody chose to publish, it
+# means nothing to anyone who clones this, and -- the part that actually bit us -- on the
+# machine where the vault DOES exist, this repo silently loaded production credentials
+# and its test suite connected to a real database as a real user.
+#
+# Here, configuration comes from your own .env and your own environment. Nothing else.
+_VAULT_PATH = Path(os.environ.get("MADRAS_VAULT_PATH", ""))
 _LOCAL_ENV = Path(__file__).resolve().parents[2] / ".env"
 
 # Build env_file list: vault first (lower priority), local .env second (higher priority).
@@ -197,6 +204,15 @@ class Settings(BaseSettings):
         "unauthenticated requests, and nothing in this codebase could send a key, so semantic "
         "recall silently degraded to keyword-only there. Guarded by "
         "tests/test_memory/test_qdrant_api_key.py.",
+    )
+    llm_backend: str = Field(
+        default="ollama",
+        validation_alias="MADRAS_LLM_BACKEND",
+        description="Which LLM backend to use by default: 'ollama' (local, nothing leaves the "
+        "machine) or 'openrouter'. Added s67 because `.env.example` documented this variable and "
+        "nothing read it -- a person could set it to openrouter, restart, still be on ollama, and "
+        "get no error explaining why. Found by a test that checks every variable the example file "
+        "documents is one the code actually looks for.",
     )
     ollama_url: str = Field(
         default="http://localhost:11434",

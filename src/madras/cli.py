@@ -136,7 +136,10 @@ def main(argv: list[str] | None = None) -> int:
     c = sub.add_parser("chat", help="talk to Shadow")
     c.add_argument("prompt", nargs="?", default=None, help="one-shot prompt; omit for a REPL")
     c.add_argument("--model", default="qwen3.5:4b", help="model id (default: qwen3.5:4b)")
-    c.add_argument("--backend", default="ollama", choices=["ollama", "openrouter"])
+    # Defaults to MADRAS_LLM_BACKEND from your .env, so the file the README tells you to
+    # edit actually decides this. The flag still overrides it for a one-off.
+    c.add_argument("--backend", default=settings.llm_backend,
+                   choices=["ollama", "openrouter"])
     c.add_argument("--timeout", type=float, default=120.0)
     c.add_argument("--session-id", default="cli")
     c.add_argument("--project", default="shadow-cli", help="which Mind Palace to remember into")
