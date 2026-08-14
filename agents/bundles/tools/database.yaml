@@ -1,7 +1,0 @@
-name: database
-description: Ask NL questions over Madras's own operational data (read-only, always
-  confirmed).
-rank_required: specialist
-scopes:
-- exec
-toolset: database

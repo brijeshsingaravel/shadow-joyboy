@@ -1,6 +1,0 @@
-name: kanban
-description: Manage the kanban task board.
-rank_required: specialist
-scopes:
-- exec
-toolset: kanban

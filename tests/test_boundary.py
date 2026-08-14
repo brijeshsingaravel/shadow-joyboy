@@ -184,10 +184,22 @@ class TestOnByDefaultMatchesTheReadme:
         )
 
 
-@pytest.mark.parametrize("role_file", sorted((REPO / "agents" / "roles").glob("*.yaml")))
+# EVERY yaml under agents/, not just roles/. Globbing roles/ alone missed thirteen configs,
+# one of them bundles/tools/messaging.yaml -- "Draft and send messages across governed
+# channels" -- sitting in a repo whose README says the messaging tools are not here at all.
+# No code backed it so it granted nothing, but a reader who found it would rightly stop
+# believing the README. A test that checks one directory proves one directory.
+@pytest.mark.parametrize("role_file", sorted((REPO / "agents").rglob("*.yaml")))
 def test_every_role_in_the_repo_respects_the_boundary(role_file: Path) -> None:
     """Not just Shadow. Any role config shipped here is a door, and they all need the same lock."""
     cfg = yaml.safe_load(role_file.read_text(encoding="utf-8")) or {}
-    declared = set(cfg.get("toolsets") or [])
-    assert "messaging" not in declared, f"{role_file.name} asks for messaging"
-    assert "delegation" not in declared, f"{role_file.name} asks for delegation"
+    if not isinstance(cfg, dict):
+        return
+    named = set(cfg.get("toolsets") or [])
+    if isinstance(cfg.get("toolset"), str):
+        named.add(cfg["toolset"])   # bundle files name a single toolset, not a list
+    ghosts = named - REGISTRY.toolsets()
+    assert not ghosts, (
+        f"{role_file.relative_to(REPO)} describes toolsets this repo does not ship: "
+        f"{sorted(ghosts)}. It grants nothing, but it contradicts the README in the same repo."
+    )

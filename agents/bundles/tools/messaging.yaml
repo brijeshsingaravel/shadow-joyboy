@@ -1,6 +1,0 @@
-name: messaging
-description: Draft and send messages across governed channels.
-rank_required: intern
-scopes:
-- read
-toolset: messaging

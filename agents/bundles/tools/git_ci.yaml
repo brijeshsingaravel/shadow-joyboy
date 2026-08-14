@@ -1,6 +1,0 @@
-name: git_ci
-description: Open a real PR and iterate on CI, scoped to one configured repo (opt-in).
-rank_required: senior
-scopes:
-- write
-toolset: git_ci

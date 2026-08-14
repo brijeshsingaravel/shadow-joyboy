@@ -1,6 +1,0 @@
-name: computer_use
-description: Drive a sandboxed virtual computer, never the host (opt-in).
-rank_required: principal
-scopes:
-- external
-toolset: computer_use

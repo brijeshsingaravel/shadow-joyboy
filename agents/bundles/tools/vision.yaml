@@ -1,6 +1,0 @@
-name: vision
-description: Analyze images via a vision-capable model.
-rank_required: intern
-scopes:
-- read
-toolset: vision
