@@ -54,12 +54,13 @@ class TestEveryFileTheReadmeMentionsExists:
 class TestTheProjectUrlsAgree:
     """The README's clone command and pyproject's Source URL must name the same repository.
 
-    They did not. pyproject said `brijeshsingaravel/shadow-joyboy`, which 404s — the account is
-    `brijeshsingaravel-jpg`. It was written before the username was known and never revisited,
-    and it is the URL that travels in package metadata, where it is read by tools rather than
-    by people, so nobody notices it is wrong.
+    They did not. pyproject named an account that did not exist — written before the username was
+    known, and never revisited. It is the URL that travels in package metadata, read by tools
+    rather than by people, which is exactly why nobody noticed it was wrong.
 
-    If the account is ever renamed, this fails and points at both places that need changing.
+    The account was later renamed, which is the other reason this test exists: a rename updates
+    nothing that is hard-coded, and GitHub's own dialog says so plainly. This fails and names
+    both files that need changing.
     """
 
     def test_the_readme_and_pyproject_point_at_the_same_repo(self) -> None:

@@ -47,7 +47,7 @@ class OpenRouterBackend(LLMBackend):
             payload["seed"] = req.seed
         headers = {
             "Authorization": f"Bearer {self._api_key}",
-            "HTTP-Referer": "https://github.com/brijeshsingaravel-jpg/madras-ai",
+            "HTTP-Referer": "https://github.com/brijeshsingaravel/shadow-joyboy",
             "X-Title": "Madras AI",
             "Content-Type": "application/json",
         }
