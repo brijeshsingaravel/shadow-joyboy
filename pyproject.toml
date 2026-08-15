@@ -45,7 +45,7 @@ dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.15,<0.16"]
 shadow = "madras.cli:main"
 
 [project.urls]
-Source = "https://github.com/brijeshsingaravel/shadow-joyboy"
+Source = "https://github.com/brijeshsingaravel-jpg/shadow-joyboy"
 
 [build-system]
 requires = ["hatchling"]

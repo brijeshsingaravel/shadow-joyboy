@@ -51,6 +51,26 @@ class TestEveryFileTheReadmeMentionsExists:
         assert (REPO / "src/madras/tools/builtin/__init__.py").exists()
 
 
+class TestTheProjectUrlsAgree:
+    """The README's clone command and pyproject's Source URL must name the same repository.
+
+    They did not. pyproject said `brijeshsingaravel/shadow-joyboy`, which 404s — the account is
+    `brijeshsingaravel-jpg`. It was written before the username was known and never revisited,
+    and it is the URL that travels in package metadata, where it is read by tools rather than
+    by people, so nobody notices it is wrong.
+
+    If the account is ever renamed, this fails and points at both places that need changing.
+    """
+
+    def test_the_readme_and_pyproject_point_at_the_same_repo(self) -> None:
+        pyproject = tomllib.loads((REPO / "pyproject.toml").read_text(encoding="utf-8"))
+        source = pyproject["project"]["urls"]["Source"].rstrip("/")
+        assert source in README.replace(".git", ""), (
+            f"pyproject Source is {source}, which does not appear in the README's clone "
+            "command. One of them is wrong, and the metadata one is the one nobody reads."
+        )
+
+
 class TestNothingIsStillAPlaceholder:
     """The first command in the README is a `git clone`. A placeholder there is not a cosmetic
     problem: it is the very first thing a stranger runs, and it fails before they have read a
