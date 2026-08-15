@@ -178,7 +178,25 @@ and deliberate, and what to expect back.
 
 ## Licence
 
-Apache-2.0. Use it, change it, sell it. See [LICENSE](LICENSE).
+**AGPL-3.0.** Copyright © 2026 Singaravel Brijesh. See [LICENSE](LICENSE).
+
+**For almost everyone, this changes nothing.** Use it, read it, run it, modify it, build on it. If
+you are a person, a student, a researcher, a hobbyist, or a company using it internally, you have
+every freedom you would have had under a permissive licence, and you owe nothing.
+
+**It asks for one thing back, from one case.** If you modify Shadow and offer it to others over a
+network — as a hosted service — you must make your modified source available to the people using
+it. That is section 13, and it is the entire reason this licence was chosen over Apache-2.0.
+
+**Why.** This was written by one person so that an agent which remembers you could exist and be
+free to use. The case it guards against is narrow: someone taking it, improving it privately, and
+selling those improvements as a service while the people who need it are no better off. **Nothing
+here is aimed at anyone building something and sharing it back.**
+
+**If AGPL genuinely does not work for you**, ask. Plenty of companies cannot accept it as a matter
+of policy, and that is a real constraint rather than bad faith. A commercial licence is available
+— email `brijeshsingaravel@gmail.com` and say what you are building. **The answer is not
+automatically a price**, and for something that helps people it may well be yes for nothing.
 
 ## Credit
 

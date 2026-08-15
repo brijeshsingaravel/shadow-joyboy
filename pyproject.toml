@@ -7,6 +7,13 @@ requires-python = ">=3.11"
 license = { file = "LICENSE" }
 authors = [{ name = "Singaravel Brijesh" }]
 keywords = ["agent", "llm", "memory", "langgraph", "ollama", "local-first"]
+classifiers = [
+  # Stated in machine-readable form as well as in LICENSE, because package indexes and licence
+  # scanners read this field and never open the file. A project whose metadata and licence file
+  # disagree is one a company's compliance tooling will flag and quietly avoid.
+  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+  "Programming Language :: Python :: 3.11",
+]
 
 # Measured, not guessed. Every package below was observed loading when the tools, the agent
 # factory, the graph and the CLI are imported in a fresh interpreter -- the same method used to

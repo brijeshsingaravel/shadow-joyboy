@@ -51,6 +51,44 @@ class TestEveryFileTheReadmeMentionsExists:
         assert (REPO / "src/madras/tools/builtin/__init__.py").exists()
 
 
+class TestTheLicenceIsWhatWeSayItIs:
+    """Three places state the licence and all three must agree: the LICENSE file, the README, and
+    the classifier in pyproject that compliance tooling actually reads.
+
+    This matters more than most consistency checks. A licence is the one promise in a repository
+    that a stranger relies on before writing a line of code, and it is the promise that cannot be
+    walked back — anyone who takes a copy under the stated terms keeps them forever. A file that
+    says one thing and metadata that says another is not a tidiness problem; it is a question
+    about which one a court would read.
+    """
+
+    def test_the_licence_file_is_agpl_with_the_network_clause(self) -> None:
+        text = (REPO / "LICENSE").read_text(encoding="utf-8")
+        assert "GNU AFFERO GENERAL PUBLIC LICENSE" in text
+        assert "Remote Network Interaction" in text, (
+            "section 13 is missing — that clause IS the reason this licence was chosen, and "
+            "without it this is effectively GPL"
+        )
+
+    def test_the_copyright_line_is_filled_in(self) -> None:
+        text = (REPO / "LICENSE").read_text(encoding="utf-8")
+        assert "<year>" not in text and "<name of author>" not in text, (
+            "the licence template placeholders were never filled in"
+        )
+        assert "Copyright (C) 2026  Singaravel Brijesh" in text
+
+    def test_the_readme_and_the_classifier_agree(self) -> None:
+        pyproject = tomllib.loads((REPO / "pyproject.toml").read_text(encoding="utf-8"))
+        classifiers = " ".join(pyproject["project"].get("classifiers", []))
+        assert "Affero" in classifiers, "pyproject does not declare AGPL"
+        assert "AGPL-3.0" in README, "the README no longer states the licence"
+
+    def test_the_readme_does_not_still_invite_people_to_sell_it(self) -> None:
+        """The Apache-era line was 'Use it, change it, sell it.' Under AGPL that sentence is
+        misleading in the one direction that matters, so its absence is worth asserting."""
+        assert "Use it, change it, sell it" not in README
+
+
 class TestTheProjectUrlsAgree:
     """The README's clone command and pyproject's Source URL must name the same repository.
 
