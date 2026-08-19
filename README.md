@@ -9,7 +9,7 @@ Shadow is the flagship agent from Madras AI. This repository is Shadow itself
 **Status: early.** One person built this. It is not battle-hardened by a thousand users yet, and
 things will be rough in places.
 
-**What "tested" means here, since the word is cheap:** 93 tests, run on every push. Most of them
+**What "tested" means here, since the word is cheap:** 110 tests, run on every push. Most of them
 check that this README is telling you the truth — that no tool able to send a message is
 registered, that the agent's config asks for nothing it cannot have, that the tool count below
 matches what you actually get, and that every toolset named here exists. If a promise on this page

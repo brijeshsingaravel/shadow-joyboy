@@ -68,7 +68,11 @@ class TestTheMessageItself:
     def test_ordinary_distress_is_left_alone(self) -> None:
         """A person who gets the crisis paragraph for a bad week learns to ignore it, and then
         it is not there when it counts."""
-        for text in ("this deadline is killing me", "i could kill myself laughing", "i'm so dead tired"):
+        for text in (
+            "this deadline is killing me",
+            "i could kill myself laughing",
+            "i'm so dead tired",
+        ):
             assert not CrisisSupport().inspect(text).detected, text
 
 

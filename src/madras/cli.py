@@ -22,8 +22,8 @@ from madras.llm.gateway import LLMGateway
 from madras.llm.litellm import LiteLLMBackend
 from madras.llm.openrouter import OpenRouterBackend
 from madras.llm.reply_text import explain_empty_reply
-from madras.security.crisis import CrisisSupport, strip_contacts
 from madras.mindpalace.ledger import MindPalaceLedger
+from madras.security.crisis import CrisisSupport, strip_contacts
 from madras.tools.registry import REGISTRY
 
 AGENTS_DIR = Path(__file__).resolve().parents[2] / "agents"

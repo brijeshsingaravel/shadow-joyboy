@@ -156,6 +156,35 @@ class TestTheNumbersAreRight:
             "to their config and get nothing, with no error to explain it."
         )
 
+    def test_the_test_count_matches_the_claim(self) -> None:
+        """The README opens by saying how many tests there are, to make "tested" mean something.
+
+        It said 93 while the suite collected 109. Nothing was wrong with the code and nothing
+        failed -- the sentence had simply stopped being true, which is the exact drift the rest of
+        this file exists to catch, left unguarded on the one number a reader meets first.
+
+        Counted by asking pytest, not by counting `def test_` in the source: three tests here are
+        parametrized, so the source says 65 and the suite runs 109. The number a reader cares
+        about is the number that actually runs.
+        """
+        m = re.search(r"(\d+) tests, run on every push", README)
+        assert m, "the README no longer states a test count — put it back or drop the test"
+        claimed = int(m.group(1))
+
+        r = subprocess.run(
+            [sys.executable, "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider"],
+            capture_output=True, text=True, cwd=str(REPO),
+            env={**os.environ, "PYTHONPATH": os.pathsep.join(
+                [str(REPO / "src"), str(REPO / "packages/madras-capabilities/src")]
+            )},
+        )
+        found = re.search(r"(\d+) tests? collected", r.stdout)
+        assert found, f"could not read a collection count from pytest:\n{r.stdout[-600:]}"
+        actual = int(found.group(1))
+        assert actual == claimed, (
+            f"README says {claimed} tests; the suite collects {actual}. Change the README."
+        )
+
 
 class TestTheCommandsItTellsYouToRun:
     def test_the_cli_entry_point_exists(self) -> None:
