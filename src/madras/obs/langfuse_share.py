@@ -5,7 +5,7 @@ A session groups its work under a Langfuse `session_id`; each trajectory event b
 observation (tool calls → spans, others → events), and the deep-link points a viewer at the
 Langfuse session replay (timeline + agent-graph). The push is **injectable** (`LangfusePusher`)
 so the mapping + link are deterministic + offline-testable; the live push (`make_langfuse_pusher`,
-wrapping the Langfuse SDK) runs when the `outkast-langfuse` host port is reachable.
+wrapping the Langfuse SDK) runs when a Langfuse host port is reachable.
 """
 
 from __future__ import annotations

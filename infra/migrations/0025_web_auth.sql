@@ -1,7 +1,7 @@
 -- Founder cockpit auth (framework-10x Part C, C8a). Better Auth's core schema,
 -- isolated under a dedicated `auth` schema (not `public`) so it can never collide
 -- with the engine's own tables. No external egress — this runs against the isolated
--- `madras-postgres` (s36 infra migration), not the shared outkast-postgres.
+-- the Postgres that docker-compose.yml starts.
 --
 -- Column names are quoted camelCase to match Better Auth's default Kysely/Postgres
 -- adapter exactly (it does not snake_case by default; fighting that with per-field

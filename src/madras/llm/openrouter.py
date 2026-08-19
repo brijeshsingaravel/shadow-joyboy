@@ -16,6 +16,12 @@ from madras.llm.gateway import LLMBackend, LLMRequest, LLMResponse, ToolCall
 
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 
+# OpenRouter reads these two headers for its public app rankings, so whatever is sent here
+# is what your traffic is credited to. It used to be hard-coded to the author's hosted
+# site, which meant every self-hoster's calls were quietly attributed to a deployment that
+# is not theirs. Defaults to this repository; override per deployment.
+OPENROUTER_REFERER = "https://github.com/brijeshsingaravel/shadow-joyboy"
+
 
 class OpenRouterBackend(LLMBackend):
     def __init__(
@@ -23,6 +29,7 @@ class OpenRouterBackend(LLMBackend):
         *,
         api_key: str,
         base_url: str = OPENROUTER_BASE,
+        referer: str = OPENROUTER_REFERER,
         timeout: float = 30.0,
         transport: httpx.AsyncBaseTransport | None = None,
     ) -> None:
@@ -30,6 +37,7 @@ class OpenRouterBackend(LLMBackend):
             raise ValueError("OpenRouter api_key is required")
         self._api_key = api_key
         self._base_url = base_url
+        self._referer = referer
         self._timeout = timeout
         self._transport = transport
 
@@ -47,7 +55,7 @@ class OpenRouterBackend(LLMBackend):
             payload["seed"] = req.seed
         headers = {
             "Authorization": f"Bearer {self._api_key}",
-            "HTTP-Referer": "https://shadow.outkastcode.com",
+            "HTTP-Referer": self._referer,
             "X-Title": "Madras AI",
             "Content-Type": "application/json",
         }

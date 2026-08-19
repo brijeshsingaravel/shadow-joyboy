@@ -6,8 +6,9 @@ contact_links:
   - name: Security problem
     url: https://github.com/brijeshsingaravel/shadow-joyboy/blob/main/SECURITY.md
     about: Please report privately rather than in a public issue — there's an address in here.
-  # No link to Discussions here: it is switched off on this repository, and a contact link
-  # pointing at a disabled tab is a 404 on the first click. If it is ever turned on, add it back.
+  # Discussions was switched on after publication, and this link was verified to return 200
+  # before being added. It was deliberately absent for a few hours while the tab was disabled,
+  # because a contact link pointing at a disabled tab is a 404 on someone's first click.
   - name: A question, or an idea for a large change
-    url: https://github.com/brijeshsingaravel/shadow-joyboy/issues/new
-    about: Ask before you build it, so nothing gets turned down for a reason you couldn't have known.
+    url: https://github.com/brijeshsingaravel/shadow-joyboy/discussions
+    about: Lower stakes than an issue. Worth asking before you build something large.

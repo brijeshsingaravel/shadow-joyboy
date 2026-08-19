@@ -103,9 +103,8 @@ class Settings(BaseSettings):
     computer_use_enabled: bool = Field(
         default=False, validation_alias="MADRAS_COMPUTER_USE_ENABLED"
     )
-    # T2.1 (s44): Madras's OWN dedicated litellm (madras-litellm, port 4001) — was the
-    # shared outkast-litellm:4000. Reads MADRAS_LITELLM_MASTER_KEY from vault.env, not
-    # the shared LITELLM_MASTER_KEY (which other projects still use against port 4000).
+    # Optional: an OpenAI-compatible LiteLLM proxy, if you run one. Leave the key empty and
+    # this path is simply unused -- OpenRouter is the default route.
     litellm_master_key: str = Field(default="", validation_alias="MADRAS_LITELLM_MASTER_KEY")
     litellm_base_url: str = Field(
         default="http://localhost:4001", validation_alias="MADRAS_LITELLM_BASE_URL"
@@ -144,10 +143,8 @@ class Settings(BaseSettings):
     # Hugging Face (gated datasets, e.g. GAIA). Vault key: HUGGINGFACE_TOKEN.
     huggingface_token: str = Field(default="")
 
-    # Observability — T2.1 (s44): Madras's OWN dedicated langfuse (madras-langfuse, port
-    # 3004, project "madras"), was the shared outkast-langfuse:3003 (project
-    # "outkast-cockpit"). Reads the MADRAS_LANGFUSE_* vault.env vars, not the legacy
-    # LANGFUSE_*_LOCAL ones (kept only until the old container is confirmed retired).
+    # Observability. Optional: leave these empty and tracing degrades to a silent no-op
+    # rather than failing. Nothing here is required to run Shadow.
     langfuse_public_key_local: str = Field(
         default="", validation_alias="MADRAS_LANGFUSE_PUBLIC_KEY"
     )
@@ -158,11 +155,11 @@ class Settings(BaseSettings):
         default="http://localhost:3004", validation_alias="MADRAS_LANGFUSE_HOST"
     )
 
-    # Infra (shared outkast-* stack)
+    # Infra -- the three services docker-compose.yml starts.
     postgres_url: str = Field(
         default="postgresql://madras:madras@127.0.0.1:5433/madras",
         alias="madras_postgres_url",
-        description="Shared outkast-postgres, madras db/user (vault key: MADRAS_POSTGRES_URL)",
+        description="Postgres. Matches docker-compose.yml (host port 5433).",
     )
     postgres_admin_url: str = Field(
         default="",
@@ -176,8 +173,7 @@ class Settings(BaseSettings):
     redis_working_url: str = Field(
         default="redis://127.0.0.1:6380/9",
         validation_alias="MADRAS_REDIS_URL",
-        description="Madras's own dedicated madras-redis (host port 6380, s35/s44 isolation), "
-        "db 9 = working memory. Vault's plain REDIS_URL is the shared outkast-redis instance.",
+        description="Redis (host port 6380, matching docker-compose.yml). db 9 = working memory.",
     )
     redis_reflex_url: str = Field(
         default="redis://127.0.0.1:6380/10",
@@ -248,7 +244,9 @@ class Settings(BaseSettings):
     )
     # searxng removed (§H / D45): AGPL-3.0. web_search/deep_search now use ddgs (MIT).
     crawl4ai_url: str = Field(default="http://localhost:11235")
-    n8n_url: str = Field(default="http://localhost:5678", description="outkast-n8n (webhooks)")
+    n8n_url: str = Field(
+        default="http://localhost:5678", description="n8n, if you run one (webhooks)"
+    )
     perplexica_url: str = Field(default="http://localhost:3033", description="perplexica search")
 
     # MLflow — Track 2b experiment tracking (T2.2). Vault key: MADRAS_MLFLOW_TRACKING_URI.
@@ -383,7 +381,7 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def _normalize_urls(self) -> Settings:
-        # When running INSIDE the outkast Docker network (MADRAS_IN_DOCKER=1), rewrite
+        # When running INSIDE the compose network (MADRAS_IN_DOCKER=1), rewrite
         # localhost endpoints to container DNS names + internal ports — no host port-forward,
         # which eliminates the Docker Desktop port-forward flakiness for long-running work.
         if os.environ.get("MADRAS_IN_DOCKER"):
@@ -412,19 +410,23 @@ class Settings(BaseSettings):
 
     def _rewrite_for_docker(self) -> None:
         """localhost:<host_port> -> <container_host>:<container_port> for in-network access."""
-        # host_port -> (container_dns, container_port)
+        # host_port -> (compose_service_name, container_port)
+        #
+        # These are the three services `docker-compose.yml` in this repository actually defines,
+        # and the host ports it actually publishes. Compose puts every service on one network and
+        # makes the service name resolve as a hostname, so `postgres:5432` is right from inside
+        # and `127.0.0.1:5433` is right from outside.
+        #
+        # Anything not listed here is deliberately left untouched rather than guessed at. An
+        # earlier version of this map was inherited from the author's own private stack and
+        # rewrote these URLs to hostnames like `outkast-postgres` -- names that exist on no
+        # network but his. Setting MADRAS_IN_DOCKER=1 after cloning would have produced a DNS
+        # failure against a machine you have never heard of, which is a miserable thing to debug
+        # and tells you nothing about what went wrong.
         port_map: dict[str, tuple[str, str]] = {
-            "5432": ("outkast-postgres", "5432"),
-            "6379": ("outkast-redis", "6379"),
-            "6333": ("outkast-qdrant", "6333"),
-            "11434": ("outkast-ollama", "11434"),
-            "4000": ("outkast-litellm", "4000"),
-            "11235": ("infra-crawl4ai-1", "11235"),
-            "3033": ("infra-perplexica-1", "3000"),  # internal port differs
-            "5678": ("outkast-n8n", "5678"),
-            "5000": ("madras-mlflow", "5000"),
-            "9090": ("madras-prometheus", "9090"),
-            "3001": ("madras-grafana", "3000"),
+            "5433": ("postgres", "5432"),
+            "6380": ("redis", "6379"),
+            "6335": ("qdrant", "6333"),
         }
         url_fields = [
             "postgres_url",

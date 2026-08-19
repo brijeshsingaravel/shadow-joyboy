@@ -1,6 +1,6 @@
 """LiteLLM proxy backend.
 
-Points at the shared outkast-litellm proxy (OpenAI-compatible /v1/chat/completions)
+Points at a LiteLLM proxy, if you run one (OpenAI-compatible /v1/chat/completions)
 running in the local Docker stack. Lets Madras take real LLM turns against
 locally-routed models (gemini, llama, deepseek, qwen, ...) without spending on
 OpenRouter — used for live verification when OpenRouter credits are unavailable.

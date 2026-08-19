@@ -186,6 +186,49 @@ class TestTheNumbersAreRight:
         )
 
 
+class TestTheDockerRewriteTargetsExist:
+    def test_every_rewritten_hostname_is_a_service_compose_defines(self) -> None:
+        """MADRAS_IN_DOCKER=1 rewrites localhost URLs to compose service names.
+
+        If a name in that map is not a service in docker-compose.yml, the rewrite produces a
+        hostname that resolves nowhere, and the failure arrives as a DNS error naming a machine
+        the user has never heard of. This shipped that way once: the map was inherited from the
+        author's private stack and pointed at `outkast-postgres`, `outkast-redis` and
+        `outkast-qdrant`, none of which this repository has ever defined.
+        """
+        compose = yaml.safe_load((REPO / "docker-compose.yml").read_text(encoding="utf-8"))
+        services = set(compose.get("services") or {})
+
+        # The map is a function local, so it is read from the source rather than imported.
+        src = (REPO / "src/madras/config.py").read_text(encoding="utf-8")
+        block = src.split("port_map: dict[str, tuple[str, str]] = {", 1)[1].split("}", 1)[0]
+        targets = dict(re.findall(r'"(\d+)":\s*\("([a-z0-9_-]+)"', block))
+        assert targets, "could not read the rewrite map out of config.py"
+
+        unknown = {dns for dns in targets.values() if dns not in services}
+        assert not unknown, (
+            f"config.py rewrites to hostnames docker-compose.yml does not define: "
+            f"{sorted(unknown)}. Compose defines: {sorted(services)}."
+        )
+
+    def test_the_host_ports_match_the_ones_compose_publishes(self) -> None:
+        """The map keys are HOST ports. If they drift from what compose publishes, the rewrite
+        silently does nothing and the app talks to a port-forward that may not be there."""
+        compose = yaml.safe_load((REPO / "docker-compose.yml").read_text(encoding="utf-8"))
+        published: set[str] = set()
+        for svc in (compose.get("services") or {}).values():
+            for p in svc.get("ports") or []:
+                published.add(str(p).split(":")[-2])
+
+        src = (REPO / "src/madras/config.py").read_text(encoding="utf-8")
+        block = src.split("port_map: dict[str, tuple[str, str]] = {", 1)[1].split("}", 1)[0]
+        keys = set(re.findall(r'"(\d+)":', block))
+        assert keys <= published, (
+            f"rewrite map keys {sorted(keys - published)} are not host ports compose publishes "
+            f"({sorted(published)}), so those rewrites can never fire."
+        )
+
+
 class TestTheCommandsItTellsYouToRun:
     def test_the_cli_entry_point_exists(self) -> None:
         assert "python -m madras.cli chat" in README
