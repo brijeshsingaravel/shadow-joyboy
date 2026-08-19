@@ -1,0 +1,13 @@
+# blank_issues_enabled stays TRUE on purpose. Templates help people who want structure; forcing
+# everyone through a form turns away the person whose report doesn't fit a category, and that
+# report is often the interesting one.
+blank_issues_enabled: true
+contact_links:
+  - name: Security problem
+    url: https://github.com/brijeshsingaravel/shadow-joyboy/blob/main/SECURITY.md
+    about: Please report privately rather than in a public issue — there's an address in here.
+  # No link to Discussions here: it is switched off on this repository, and a contact link
+  # pointing at a disabled tab is a 404 on the first click. If it is ever turned on, add it back.
+  - name: A question, or an idea for a large change
+    url: https://github.com/brijeshsingaravel/shadow-joyboy/issues/new
+    about: Ask before you build it, so nothing gets turned down for a reason you couldn't have known.

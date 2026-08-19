@@ -1,5 +1,13 @@
 # Shadow
 
+<!-- Three badges, and each one is a fact a reader can click through and check: the workflow that
+     actually ran, the licence file in this repo, and the floor in pyproject.toml. No badge here
+     for coverage, downloads, "maintained", or a chat room that doesn't exist. A badge is a claim
+     in a small rectangle, and the unearned ones are the reason people stopped reading them. -->
+[![tests](https://github.com/brijeshsingaravel/shadow-joyboy/actions/workflows/tests.yml/badge.svg)](https://github.com/brijeshsingaravel/shadow-joyboy/actions/workflows/tests.yml)
+[![licence: AGPL-3.0](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+
 An agent that remembers you between conversations, runs on a machine you own, and asks before it
 does anything it can't undo.
 

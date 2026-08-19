@@ -1,0 +1,45 @@
+# Kept deliberately short. Long forms filter out the casual report, and the casual report is where
+# almost every real defect in this project has come from -- a text box that didn't work on a
+# phone, a settings page nobody could reach. Every field below except the first is optional.
+name: Something didn't work
+description: Including "this didn't work on my machine" — that is a real report, not a lesser one
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. If you only fill in the first box and hit submit, that is
+        genuinely fine — a vague report of a real problem beats a polished report of nothing.
+
+        **If this is a security problem, please don't post it here.** See
+        [SECURITY.md](../blob/main/SECURITY.md) for a private address.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, and what it did instead. Rough is fine.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+      description: Skip this if it's obvious from above.
+
+  - type: input
+    id: environment
+    attributes:
+      label: Where were you running it?
+      placeholder: e.g. Windows 11 + Python 3.11, or Ubuntu in Docker, or "not sure"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Any error output
+      description: |
+        Paste it as-is if you have it. **Please check it for anything private first** — API keys,
+        or anything the agent remembered about you. It gets rendered as code, so no backticks
+        needed.
+      render: text
