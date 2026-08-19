@@ -1,12 +1,9 @@
 """Typed env loader for Madras.
 
-Doctrine: reads ONLY from the master vault at
-O:/Brijesh-OS/secrets/vault.env. Project-namespaced keys
-(DRONA_*, FINPILOT_*, DISCOVERY_*) are explicitly NOT loaded —
-those belong to those projects.
-
-If a key Madras needs isn't in the master vault yet, the founder
-adds it to vault.env (template at vault.env.example).
+Configuration comes from your own environment and your own .env file,
+and from nothing else. There is no shared vault and no machine-specific
+path: set MADRAS_VAULT_PATH yourself if you want one, and leave it unset
+otherwise. See .env.example for every variable this reads.
 
 Implementation note: we use pydantic-settings' built-in env_file mechanism
 rather than load_dotenv() to avoid polluting os.environ as a side effect of
@@ -46,18 +43,17 @@ if _LOCAL_ENV.exists():
     _ENV_FILES.append(str(_LOCAL_ENV))
 
 
-# Explicit allowlist of master-vault keys Madras may read.
-# Adding to this list requires updating WORKSPACE_CONTEXT.md §4.
+# The settings Shadow reads. Every one of them is documented in .env.example.
 class Settings(BaseSettings):
     """Madras settings. Only un-namespaced shared keys are loaded.
 
-    `extra="ignore"` is critical: it means project-namespaced keys
-    present in the vault (DRONA_*, FINPILOT_*, etc.) are silently
-    dropped — they cannot leak into Madras code.
+    `extra="ignore"` is deliberate: any variable in your environment that
+    Shadow does not declare is dropped rather than absorbed, so nothing it
+    was never told about can reach its code.
 
-    We read vault.env via env_file (not load_dotenv) so that os.environ
-    is never mutated — other modules that call os.getenv() with their own
-    defaults remain unaffected.
+    The env file is read via env_file (not load_dotenv) so that os.environ
+    is never mutated -- other modules calling os.getenv() with their own
+    defaults are unaffected.
     """
 
     model_config = SettingsConfigDict(

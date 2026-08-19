@@ -1192,8 +1192,8 @@ own metadata.
 
 **Oracle Cloud Infrastructure — the Always Free tier**
 
-> `WORKSPACE_CONTEXT.md` names Oracle as Stage-1 launch hosting. An OCI key has been on this laptop
-> since June 2026, and the shell history holds real logins to the instance.
+> Traced backwards from real use rather than forwards from a company name: this project has had an
+> Always Free instance since June 2026, and ran on it before base-01 existed.
 
 **A machine, at no cost, under a tier they call Always Free.**
 
