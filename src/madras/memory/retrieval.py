@@ -26,6 +26,16 @@ KINDS = ("fact", "preference", "principle", "relationship", "semantic", "episodi
 # kinds where a newer item about the same subject SUPERSEDES the older (knowledge update)
 _SUPERSEDING_KINDS = {"fact", "preference"}
 
+# Subjects that are a BUCKET rather than a topic — they say how a memory arrived, not what it
+# is about, so two items sharing one are not contradicting each other. Kept deliberately tiny:
+# every other subject ("user job", "user location") names one thing and must keep superseding.
+_BUCKET_SUBJECTS = frozenset({"directive"})
+
+
+def _is_bucket_subject(subject: str) -> bool:
+    return (subject or "").strip().lower() in _BUCKET_SUBJECTS
+
+
 _WORD = re.compile(r"[a-z0-9]+")
 _STOP = frozenset(
     "the a an of to in on at for and or is are was were be been being i you he she it "
@@ -220,6 +230,22 @@ def find_contradictions(
     """Currently-valid items the `new` item supersedes: same subject, superseding kind,
     different content. The caller marks these valid_until=now (temporal reflection)."""
     if new.kind not in _SUPERSEDING_KINDS:
+        return []
+    # "directive" NAMES HOW A MEMORY ARRIVED, NOT WHAT IT IS ABOUT (s70).
+    #
+    # extract_salient gives every explicit "remember that ..." the subject "directive", so
+    # subject-matching treated two entirely unrelated instructions as contradicting each other
+    # and expired the older one. "Remember my daughter's exam is on Friday", then "remember I
+    # don't eat coriander", and the exam was gone -- silently, from a product whose whole
+    # promise is that it remembers.
+    #
+    # Found when correcting one wrong memory in the founder's account expired an unrelated one
+    # about his neighbour's cat, days old and nothing to do with it.
+    #
+    # A directive can still be replaced by an identical-subject item once directives carry a
+    # real topic; until then the safe failure is to keep both. Duplicate CONTENT is still
+    # deduped by the caller, so this does not let the same instruction pile up.
+    if _is_bucket_subject(new.subject):
         return []
     new_content = " ".join(_tokens(new.content))
     hits: list[MemoryItem] = []

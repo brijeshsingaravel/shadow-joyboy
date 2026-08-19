@@ -83,7 +83,10 @@ async def embed_many(texts: list[str], *, batch_size: int = 32) -> list[list[flo
                     json={"model": settings.embed_model, "input": batch},
                 )
                 r.raise_for_status()
-                vecs = r.json().get("embeddings") or []
+                # Annotated because `r.json()` is Any: without this every element that
+                # reaches `out` is Unknown under pyright strict, and the pre-push gate
+                # refuses. The runtime shape is Ollama's `{"embeddings": [[float, ...]]}`.
+                vecs: list[list[float]] = r.json().get("embeddings") or []
                 if len(vecs) != len(batch):
                     # A short response would silently misalign every id after it.
                     out.extend([None] * len(batch))

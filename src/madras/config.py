@@ -29,7 +29,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 # An extracted repo must not: that path is a personal detail nobody chose to publish, it
 # means nothing to anyone who clones this, and -- the part that actually bit us -- on the
 # machine where the vault DOES exist, this repo silently loaded production credentials
-# and its test suite connected to a real database as a real user.
+# and its test suite connected to a real database as a real user. Found at s67 by a test
+# checking that every variable .env.example documents is one the code reads: the settings
+# came back populated with values no .env in this repo had supplied.
 #
 # Here, configuration comes from your own .env and your own environment. Nothing else.
 _VAULT_PATH = Path(os.environ.get("MADRAS_VAULT_PATH", ""))
@@ -160,16 +162,7 @@ class Settings(BaseSettings):
         default="http://localhost:3004", validation_alias="MADRAS_LANGFUSE_HOST"
     )
 
-    # 127.0.0.1, NEVER localhost, and the ports match docker-compose.yml exactly.
-    #
-    # Two separate traps were here. Windows resolves `localhost` to ::1 first, and a service
-    # bound to IPv4 refuses that connection while looking perfectly healthy -- it cost a full
-    # session of debugging on the machine this came from. And the Postgres default said 5432
-    # while the compose file publishes 5433, so anyone who started the databases and skipped
-    # the .env step got a connection failure pointing at the wrong thing entirely.
-    #
-    # These defaults now describe exactly what `docker compose up -d` gives you.
-    # Infra
+    # Infra (shared outkast-* stack)
     postgres_url: str = Field(
         default="postgresql://madras:madras@127.0.0.1:5433/madras",
         alias="madras_postgres_url",
@@ -213,6 +206,31 @@ class Settings(BaseSettings):
         "unauthenticated requests, and nothing in this codebase could send a key, so semantic "
         "recall silently degraded to keyword-only there. Guarded by "
         "tests/test_memory/test_qdrant_api_key.py.",
+    )
+    local_only: bool = Field(
+        default=False,
+        validation_alias="MADRAS_LOCAL_ONLY",
+        description="Refuse every remote model provider, whatever a request asks for and whatever "
+        "keys are configured. Added s68 while checking the privacy notice against reality: the "
+        "hosted Shadow's promise that nothing reaches a provider rested on a constant in one route "
+        "file, while an OpenRouter key sat in its environment and `_select_gateway` would have "
+        "honoured a request for it. A promise other people rely on should not be a setting someone "
+        "can forget. OFF by default so a person who clones this and brings their own key is not "
+        "mysteriously refused; the hosted deployment turns it ON, and that one line is what the "
+        "privacy notice points at.",
+    )
+    crisis_help_url: str = Field(
+        default="",
+        validation_alias="MADRAS_CRISIS_HELP_URL",
+        description="A page listing crisis services, shown when someone tells Shadow they want to "
+        "die. EMPTY BY DEFAULT AND THAT IS THE SAFE FAILURE: with no URL the message keeps its "
+        "load-bearing sentence — tell someone you trust, tonight — and drops the offer of a "
+        "destination rather than pointing nowhere. Deliberately a URL the operator controls rather "
+        "than a helpline number in the source: a number compiled into a release can be wrong for "
+        "years, in front of exactly the person who most needs it right, and fixing it would mean a "
+        "deploy. A page is one edit. It is also why this is not hard-coded to an Indian service — "
+        "Shadow is open-source, and the wrong country's helpline is worse than none. See "
+        "src/madras/security/crisis.py.",
     )
     llm_backend: str = Field(
         default="ollama",

@@ -22,6 +22,7 @@ from madras.llm.gateway import LLMGateway
 from madras.llm.litellm import LiteLLMBackend
 from madras.llm.openrouter import OpenRouterBackend
 from madras.llm.reply_text import explain_empty_reply
+from madras.security.crisis import CrisisSupport, strip_contacts
 from madras.mindpalace.ledger import MindPalaceLedger
 from madras.tools.registry import REGISTRY
 
@@ -148,6 +149,23 @@ async def _chat(args: argparse.Namespace) -> int:
         said = explain_empty_reply(
             str(reply.content), finish_reason=result.get("finish_reason")
         )
+        # THE FOURTH DOOR. Everything above this is how a person actually talks to Shadow when
+        # they have cloned it and run it themselves -- there is no server in this repo, so this
+        # function IS the product. Without these three lines a clone answers someone who says
+        # they want to die however a small model happens to answer, and the module sitting in
+        # security/crisis.py is never called by anything.
+        #
+        # Upstream, the same seam is wired into all three HTTP endpoints. It was wired into only
+        # one of them for a while, which is exactly how a safety layer becomes decoration: it is
+        # worth the number of doors it is actually attached to.
+        #
+        # MADRAS_CRISIS_HELP_URL is empty by default and that is the safe failure. A clone in
+        # another country gets the sentence that is true everywhere -- tell someone you trust,
+        # tonight -- and no link, rather than an Indian helpline that cannot help them.
+        verdict = CrisisSupport(help_url=settings.crisis_help_url).inspect(text)
+        if verdict.detected:
+            stripped = strip_contacts(said)
+            said = "\n\n".join(p for p in (verdict.message, stripped) if p)
         history.append(HumanMessage(content=text))
         history.append(AIMessage(content=said))
         print(f"\n{agent.config.display_name}: {said}\n")
