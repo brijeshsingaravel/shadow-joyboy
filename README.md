@@ -164,11 +164,23 @@ product.
 
 ## Contributing
 
-Genuinely welcome, with one honest caveat: this is maintained by one person who has a job and a
-family, so a reply may take days. Open an issue before a large change so you don't build something
-that gets turned down for a reason you had no way to know.
+Genuinely welcome, with an honest caveat about me rather than about you.
 
-Bugs, unclear docs and "this didn't work on my machine" are the most useful things you can send.
+This is maintained by one person with a job, a family, and a small number of people already
+depending on the hosted version. A reply may take days. Sometimes it won't come at all — not
+because your issue wasn't worth answering, but because that week had other claims on it. I'd
+rather say that now than have you read silence as a verdict on your work.
+
+Open an issue before a large change, so you don't build something that gets turned down for a
+reason you had no way to know.
+
+Bugs, unclear docs, and "this didn't work on my machine" are the most useful things you can send —
+especially the last one. Most of what has been fixed here was found by someone using it in a way I
+couldn't see from where I sit.
+
+If I go quiet and you need this to keep working: fork it. The licence is AGPL-3.0 precisely so
+that you can, and so that whatever you build on it stays open for the next person. That isn't a
+failure of the project. It's what the licence is for.
 
 ## Security
 
