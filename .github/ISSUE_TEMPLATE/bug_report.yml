@@ -14,11 +14,23 @@ body:
         **If this is a security problem, please don't post it here.** See
         [SECURITY.md](../blob/main/SECURITY.md) for a private address.
 
+  # Issue forms have no file-upload field -- GitHub has never shipped one, and the request for it
+  # is years old. An attachment can only come from the editor's own control on a text box, which
+  # is easy to miss, so this field says out loud that a screenshot belongs here. Said on this box
+  # rather than the error-output one at the bottom, because that one is the long-logs box.
   - type: textarea
     id: what
     attributes:
       label: What happened?
-      description: What you did, and what it did instead. Rough is fine.
+      description: |
+        What you did, and what it did instead. Rough is fine.
+
+        **A screenshot can go straight in this box** — paste it with Ctrl/Cmd+V, or drag the file
+        in. Pasted error text is welcome here too; there's a separate box below if it's long.
+      placeholder: |
+        I ran `madras run` and it stopped straight away.
+
+        Paste a screenshot or the error here — either is fine, and so is neither.
     validations:
       required: true
 
