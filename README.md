@@ -165,28 +165,29 @@ configuration, only by editing that file. That's deliberate.
 **If you clone this,** you run Shadow on your own machine with your own key and your own database.
 Unbounded, costs us nothing, and no data of yours ever reaches us. We won't know you did it.
 
-**If you use the [hosted Shadow](https://shadow.outkastcode.com),** you're on our machine,
-with our model and your conversations in our database. That's a much smaller group and a
-real responsibility, and it's why the two are described separately rather than as one
-product.
+**If you use the [hosted Shadow](https://shadow.lenscore.app),** you're on our server, in Mumbai,
+with your conversations and memories in our database. The model that answers is Gemma, run for us
+by companies that keep nothing (zero data retention; a request fails rather than reach one that
+would). That's a much smaller group and a real responsibility, and it's why the two are described
+separately rather than as one product.
 
 ## Contributing
 
-Genuinely welcome, with an honest caveat about me rather than about you.
+Genuinely welcome, with an honest caveat about us rather than about you.
 
-This is maintained by one person with a job, a family, and a small number of people already
-depending on the hosted version. A reply may take days. Sometimes it won't come at all — not
-because your issue wasn't worth answering, but because that week had other claims on it. I'd
-rather say that now than have you read silence as a verdict on your work.
+This is maintained by two people, Brijesh and Avinash, with jobs, families, and a small number of
+people already depending on the hosted version. A reply may take days. Sometimes it won't come at
+all — not because your issue wasn't worth answering, but because that week had other claims on it.
+We'd rather say that now than have you read silence as a verdict on your work.
 
 Open an issue before a large change, so you don't build something that gets turned down for a
 reason you had no way to know.
 
 Bugs, unclear docs, and "this didn't work on my machine" are the most useful things you can send —
-especially the last one. Most of what has been fixed here was found by someone using it in a way I
-couldn't see from where I sit.
+especially the last one. Most of what has been fixed here was found by someone using it in a way we
+couldn't see from where we sit.
 
-If I go quiet and you need this to keep working: fork it. The licence is AGPL-3.0 precisely so
+If we go quiet and you need this to keep working: fork it. The licence is AGPL-3.0 precisely so
 that you can, and so that whatever you build on it stays open for the next person. That isn't a
 failure of the project. It's what the licence is for.
 

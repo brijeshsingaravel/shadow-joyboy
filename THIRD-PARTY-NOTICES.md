@@ -134,7 +134,7 @@ naming work recorded in `Naming Candidates.md`.
 
 ### Acknowledgement — the open software this is built on
 
-Everything here runs on it. base-01 is Ubuntu. The containers holding this project's memory run on
+Everything here runs on it. Shadow's server is Ubuntu. The containers holding this project's memory run on
 Linux. `ssh`, `bash`, `grep`, `tar`, `cron`, `systemd`, `curl` — the tools used to build, test and
 inspect every part of Madras — were written well and published for anyone to read.
 
@@ -171,7 +171,11 @@ Thank you. It is a better world for the way you chose to build.
 
 ### Acknowledgement — E2E Networks
 
-Shadow does not run on a laptop. It runs on **base-01**, a machine rented from **E2E Networks** in
+> **Since 14 September 2026 this is history.** Shadow moved from base-01 to Oracle Cloud in Mumbai,
+> and base-01 has been retired. The thanks below stand as written; the present tense in them is
+> about the time they describe.
+
+Shadow does not run on a laptop. It ran on **base-01**, a machine rented from **E2E Networks** in
 Chennai — twelve cores, 82 GB, and an uptime that has so far outlasted every session that deployed
 to it.
 
