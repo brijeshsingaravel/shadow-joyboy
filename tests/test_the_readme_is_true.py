@@ -77,11 +77,26 @@ class TestTheLicenceIsWhatWeSayItIs:
         )
         assert "Copyright (C) 2026  Singaravel Brijesh" in text
 
-    def test_the_readme_and_the_classifier_agree(self) -> None:
+    def test_the_readme_and_the_metadata_agree(self) -> None:
         pyproject = tomllib.loads((REPO / "pyproject.toml").read_text(encoding="utf-8"))
+        assert pyproject["project"].get("license") == "AGPL-3.0-only", (
+            "pyproject does not declare AGPL-3.0-only as an SPDX expression"
+        )
         classifiers = " ".join(pyproject["project"].get("classifiers", []))
-        assert "Affero" in classifiers, "pyproject does not declare AGPL"
-        assert "AGPL-3.0" in README, "the README no longer states the licence"
+        assert "License ::" not in classifiers, (
+            "a License :: classifier is back; PEP 639 retires them once `license` is an "
+            "expression, and two statements of one licence are how they drift apart"
+        )
+        assert "AGPL-3.0-only" in README, "the README no longer states the licence"
+
+    def test_the_licence_notice_says_version_3_only(self) -> None:
+        """The notice in LICENSE is the statement that binds, and it once said 'or (at your option)
+        any later version' while the README said 3.0. The notice wins in any dispute, so it is the
+        one that has to be right."""
+        text = (REPO / "LICENSE").read_text(encoding="utf-8")
+        notice = text[text.index("Copyright (C) 2026"):]
+        assert "any later version" not in notice, "the LICENSE notice still grants later versions"
+        assert "version 3 of the License only" in notice
 
     def test_the_readme_does_not_still_invite_people_to_sell_it(self) -> None:
         """The Apache-era line was 'Use it, change it, sell it.' Under AGPL that sentence is

@@ -4,14 +4,15 @@ version = "0.1.0"
 description = "An agent that remembers you, runs on a machine you own, and asks before it acts."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { file = "LICENSE" }
+# The licence as an SPDX expression (PEP 639), because package indexes and licence scanners read
+# this field and never open the file. A project whose metadata and licence file disagree is one a
+# company's compliance tooling will flag and quietly avoid. PEP 639 retires the License ::
+# classifiers once this field is set, so there is no classifier to keep in step with it.
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
 authors = [{ name = "Singaravel Brijesh" }]
 keywords = ["agent", "llm", "memory", "langgraph", "ollama", "local-first"]
 classifiers = [
-  # Stated in machine-readable form as well as in LICENSE, because package indexes and licence
-  # scanners read this field and never open the file. A project whose metadata and licence file
-  # disagree is one a company's compliance tooling will flag and quietly avoid.
-  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
   "Programming Language :: Python :: 3.11",
 ]
 
@@ -55,7 +56,7 @@ shadow = "madras.cli:main"
 Source = "https://github.com/brijeshsingaravel/shadow-joyboy"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]  # 1.27 is the first to read a PEP 639 licence expression
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]

@@ -77,6 +77,6 @@ address and what to expect.
 
 ## Licence
 
-This project is AGPL-3.0. By contributing you agree your contribution is licensed under it too.
+This project is AGPL-3.0-only. By contributing you agree your contribution is licensed under it too.
 There is no CLA to sign and no copyright to assign — your commit stays yours, under the same
 licence as everything around it.

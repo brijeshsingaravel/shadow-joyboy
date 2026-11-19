@@ -5,7 +5,7 @@
      for coverage, downloads, "maintained", or a chat room that doesn't exist. A badge is a claim
      in a small rectangle, and the unearned ones are the reason people stopped reading them. -->
 [![tests](https://github.com/brijeshsingaravel/shadow-joyboy/actions/workflows/tests.yml/badge.svg)](https://github.com/brijeshsingaravel/shadow-joyboy/actions/workflows/tests.yml)
-[![licence: AGPL-3.0](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](LICENSE)
+[![licence: AGPL-3.0-only](https://img.shields.io/badge/licence-AGPL--3.0--only-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
 An agent that remembers you between conversations, runs on a machine you own, and asks before it
@@ -17,7 +17,7 @@ Shadow is the flagship agent from Madras AI. This repository is Shadow itself
 **Status: early.** One person built this. It is not battle-hardened by a thousand users yet, and
 things will be rough in places.
 
-**What "tested" means here, since the word is cheap:** 112 tests, run on every push. Most of them
+**What "tested" means here, since the word is cheap:** 113 tests, run on every push. Most of them
 check that this README is telling you the truth — that no tool able to send a message is
 registered, that the agent's config asks for nothing it cannot have, that the tool count below
 matches what you actually get, and that every toolset named here exists. If a promise on this page
@@ -187,7 +187,7 @@ Bugs, unclear docs, and "this didn't work on my machine" are the most useful thi
 especially the last one. Most of what has been fixed here was found by someone using it in a way we
 couldn't see from where we sit.
 
-If we go quiet and you need this to keep working: fork it. The licence is AGPL-3.0 precisely so
+If we go quiet and you need this to keep working: fork it. The licence is AGPL-3.0-only precisely so
 that you can, and so that whatever you build on it stays open for the next person. That isn't a
 failure of the project. It's what the licence is for.
 
@@ -199,7 +199,10 @@ and deliberate, and what to expect back.
 
 ## Licence
 
-**AGPL-3.0.** Copyright © 2026 Singaravel Brijesh. See [LICENSE](LICENSE).
+**AGPL-3.0-only.** Copyright © 2026 Singaravel Brijesh. See [LICENSE](LICENSE).
+
+"Only" means version 3 of the licence, not whatever a future version might say. You agree to
+terms you can read today, and they will not change under you.
 
 **For almost everyone, this changes nothing.** Use it, read it, run it, modify it, build on it. If
 you are a person, a student, a researcher, a hobbyist, or a company using it internally, you have
@@ -216,7 +219,7 @@ here is aimed at anyone building something and sharing it back.**
 
 **If AGPL genuinely does not work for you**, ask. Plenty of companies cannot accept it as a matter
 of policy, and that is a real constraint rather than bad faith. A commercial licence is available
-— email `brijeshsingaravel@gmail.com` and say what you are building. **The answer is not
+— open an issue titled "licence" and say what you are building, and we will take it from there. **The answer is not
 automatically a price**, and for something that helps people it may well be yes for nothing.
 
 ## Credit
